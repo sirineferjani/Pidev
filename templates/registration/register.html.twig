@@ -1,4 +1,4 @@
-   {% extends 'base-front.html.twig' %}
+{% extends 'base-front.html.twig' %}
  {%block header %}{% endblock %}
 {% block body %}
 
@@ -10,7 +10,7 @@
             Register
           </div>
           <div class="card-body">
-            {{ form_start(form) }}
+          {{form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
             <div class="form-group">
                 {{ form_row(form.username, {'attr': {'class': 'form-control'}}) }}
             </div>

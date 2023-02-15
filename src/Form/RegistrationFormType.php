@@ -57,6 +57,7 @@ class RegistrationFormType extends AbstractType
             'Famille' => 'ROLE_FAMILLE',
             'Boutique' => 'ROLE_BOUTIQUE',
             'agence' => 'ROLE_AGENCE',
+            
         ],
         'multiple' => true,
         'expanded' => true,

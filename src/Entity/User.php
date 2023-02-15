@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use App\Repository\UserRepository;
@@ -7,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -19,18 +19,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\NotBlank(message: 'Please enter an email')]
+    #[Assert\Email(message: 'Invalid email address')]
     private ?string $email = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'Please choose a role')]
+    #[Assert\Choice(choices: ["ROLE_USER", "ROLE_ADMIN", "ROLE_SUPER_ADMIN"], message: "Please select a valid role.")]
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'Please enter a password')]
     private ?string $password = null;
 
+    
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Please enter a username")]
+    #[Assert\Length(
+        min: 4,
+        max: 100,
+        minMessage: "Username must be at least {{ limit }} characters long",
+        maxMessage: "Username cannot be longer than {{ limit }} characters"
+    )]
+
     private ?string $username = null;
 
     public function getId(): ?int

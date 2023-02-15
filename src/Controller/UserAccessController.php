@@ -95,5 +95,19 @@ public function edit(Request $request, User $user): Response
 
         return $this->redirectToRoute('display');
     }
+   
+    /**
+     * @Route("/client", name="_profiler_home")
+     */
+    public function indexClient(): Response
+    {
+
+        return $this->render('client/client.html.twig');
+    }
+
+    //***********************************Client End***********************************************************//
+
 
 }
+
+
