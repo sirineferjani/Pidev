@@ -1,0 +1,46 @@
+{% extends 'base-back.html.twig' %}
+
+{% block content %}
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-y">
+<h2> Liste des Articles </h2> 
+
+<div class="container">
+<table class="table text-black" border="2">
+<center>
+        <thead>
+            <tr>
+                <th>ref_article</th>
+                <th>Nom_article</th>
+                <th>Description</th>
+                <th>Prix</th>
+                <th>Image</th>
+                <th>Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for a in article %}
+            <tr>
+                <td>{{ a.getRefArticle()}}</td>
+                <td>{{ a.getNomArticle() }}</td>
+                <td>{{ a.getDescription() }}</td>
+                <td>{{ a.getPrix ()}}</td>
+                <td>{{ a.getImage ()}}</td>
+                <td>{{ a.getStock() }}</td>
+
+               <td><a href="{{path('editA',{id:a.id})}}">modifier</a></td>
+
+                           <td><a href="{{path('deleteA',{id:a.id})}}">supprimer</a></td>
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+</table>
+</center>
+<td><a href="{{ path ('add') }}">ajouter</a></td> 
+</div>
+</main>
+{% endblock %}
