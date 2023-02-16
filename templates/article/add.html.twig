@@ -1,11 +1,20 @@
 {% extends 'base-back.html.twig' %}
-{% form_theme formC 'bootstrap_5_layout.html.twig' %}
+{% form_theme formC 'bootstrap_4_layout.html.twig' %}
 {% block content %}
 <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-y">
 <div class="container-fluid py-4">
 
-<h2> Ajouter Article </h2> 
-    {{form (formC)}}
+<h6> Ajouter Article </h6> 
+    {{form_start(formC,{'attr': {'novalidate': 'novalidate'}})}}
+    {{form_row(formC.ref_article,{'attr': {'placeholder':'ref Article','class':'form-control-lg'}})}}
+    {{form_row(formC.Description,{'attr': {'placeholder':'Decription Article','class':'form-control-lg'}})}}
+    {{form_row(formC.Prix,{'attr': {'placeholder':'Prix Article','class':'form-control-lg'}})}}    
+    {{form_row(formC.Stock,{'attr': {'placeholder':'Stock Article','class':'form-control-lg'}})}}
+    {{form_row(formC.Nom_article,{'attr': {'placeholder':'Nom article','class':'form-control-lg'}})}}
+    {{form_row(formC.Photo,{'attr': {'placeholder':'Image Article','class':'form-control-lg'}})}}
+{{form_end(formC)}}
+
+
 </div>
 </main>
 {% endblock %}

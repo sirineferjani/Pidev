@@ -20,6 +20,7 @@
         <link rel="icon" type="image/png" sizes="56x56" href="{{ asset('front/images/fav-icon/icon.png') }}" >
         <!-- Main style sheet -->
         <link rel="stylesheet" type="text/css" href="{{ asset('front/css/style.css') }}" >
+         <link rel="stylesheet" type="text/css" href="{{ asset('front/css/styles.css') }}" >
         <!-- responsive style sheet -->
         <link rel="stylesheet" type="text/css" href="{{ asset('front/css/responsive.css') }}" > 
     
@@ -47,6 +48,7 @@
         <script src="{{ asset('front/vendor/owl-carousel/owl.carousel.min.js') }}"></script>
         <!-- js count to -->
         <script src="{{ asset('front/vendor/jquery.appear.js') }}"></script>
+        
         <script src="{{ asset('front/vendor/jquery.countTo.js') }}"></script>
         <!-- Fancybox -->
         <script src="{{ asset('front/vendor/fancybox/dist/jquery.fancybox.min.js') }}"></script>
@@ -57,7 +59,9 @@
 
 
         <!-- Theme js -->
-        <script src="js/theme.js"></script>
+        <script src="{{asset('front/js/theme.js')}}"></script>
+        <script src="{{asset('front/js/scripts.js') }}"></script>
+
         <!--<script src="js/map-script.js"></script> -->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuGD3coNF7878XNZo0CulQkXUhGiB2X1k"></script>
         <script src="js/googlemap.js"></script>
@@ -113,7 +117,7 @@
                                         <li class="active"><a href="index.html">Home</a></li>
                                         <li><a href="about.html">A Propos De Nous</a></li>
                                         <li><a href="team.html">Activitiés</a></li>
-                                        <li><a href="service.html">Boutiques</a></li>
+                                        <li><a href="{{path('affichage')}}">Boutiques</a></li>
                                         <li><a href="contact.html">Inscris-toi!</a></li>
                                     </ul>
                                 </nav> <!-- /#mega-menu-holder -->

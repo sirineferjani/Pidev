@@ -100,5 +100,13 @@ public function deleteS (ManagerRegistry $doctrine,$id):Response
     $em->flush();
     return $this->redirectToRoute('listA');
 }
-
+#[Route('/affichage', name: 'affichage')]
+public function show(ManagerRegistry $doctrine): Response
+{  
+    $repository= $doctrine->getRepository(Article::class);
+    $article=$repository->findAll();
+    return $this->render('article/Affichage.html.twig', [
+        'article' => $article,
+    ]);
+}
 }

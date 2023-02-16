@@ -24,13 +24,11 @@
                 <td>{{ a.getNomArticle() }}</td>
                 <td>{{ a.getDescription() }}</td>
                 <td>{{ a.getPrix ()}}</td>
-                <td>{{ a.getImage ()}}</td>
+                <td><img style="width:200px;" src="{{asset ('uploads/articles/'~a.image)}}" ></td>
                 <td>{{ a.getStock() }}</td>
 
-               <td><a href="{{path('editA',{id:a.id})}}">modifier</a></td>
-
-                           <td><a href="{{path('deleteA',{id:a.id})}}">supprimer</a></td>
-
+                               <td><a href="{{path ('editA',{id:a.id})}}" class="btn btn-outline-secondary">modifier</a>
+                <td><a href="{{path ('deleteA',{id:a.id})}}" class="btn btn-outline-secondary" >supprimer</a></td></td>
             </tr>
         {% else %}
             <tr>
@@ -40,7 +38,7 @@
         </tbody>
 </table>
 </center>
-<td><a href="{{ path ('add') }}">ajouter</a></td> 
+<a class="btn btn-outline-secondary" href="{{ path ('add') }}"  >ajouter</a> 
 </div>
 </main>
 {% endblock %}
