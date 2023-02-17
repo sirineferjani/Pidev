@@ -25,14 +25,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     #[Assert\NotBlank(message: 'Please choose a role')]
-    #[Assert\Choice(choices: ["ROLE_USER", "ROLE_ADMIN", "ROLE_SUPER_ADMIN"], message: "Please select a valid role.")]
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'Please enter a password')]
+    /*#[Assert\NotBlank(message: 'Please enter a password')]*/
     private ?string $password = null;
 
     
