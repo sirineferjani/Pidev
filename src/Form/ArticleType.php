@@ -36,13 +36,13 @@ class ArticleType extends AbstractType
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'image/gif',
-                            'image/jpg',
-                        ],
+                        // 'mimeTypes' => [
+                        //     'image/gif',
+                        //     'image/jpg',
+                        // ],
                         'mimeTypesMessage' => 'Please upload a valid  Image',
                     ])
-                ],
+                ], 
             ])
 
             ->add('Stock')

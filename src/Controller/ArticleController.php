@@ -39,7 +39,7 @@ class ArticleController extends AbstractController
        $form->add('Enregistrer',SubmitType::class);
 
        $form->handleRequest($request);
-       if($form->isSubmitted())
+       if($form->isSubmitted()&& $form->isValid())
        {
         $photo = $form->get('Photo')->getData();
 
@@ -74,7 +74,7 @@ class ArticleController extends AbstractController
     
 }
 #[Route('/editA/{id}', name: 'editA')]
-public function editA(HttpFoundationRequest $request,ManagerRegistry $doctrine,$id ): Response
+public function editA(HttpFoundationRequest $request,ManagerRegistry $doctrine,$id,SluggerInterface $slugger ): Response
 {  
     $repository= $doctrine->getRepository(Article::class);
     $article=$repository->find($id);
@@ -83,6 +83,30 @@ public function editA(HttpFoundationRequest $request,ManagerRegistry $doctrine,$
    $form->handleRequest($request);
    if($form->isSubmitted())
    {
+    $photo = $form->get('Photo')->getData();
+
+    // this condition is needed because the 'brochure' field is not required
+    // so the PDF file must be processed only when a file is uploaded
+    if ($photo) {
+        $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
+        // this is needed to safely include the file name as part of the URL
+        $safeFilename = $slugger->slug($originalFilename);
+        $newFilename = $safeFilename.'-'.uniqid().'.'.$photo->guessExtension();
+
+        // Move the file to the directory where brochures are stored
+        try {
+            $photo->move(
+                $this->getParameter('article_directory'),
+                $newFilename
+            );
+        } catch (FileException $e) {
+            // ... handle exception if something happens during file upload
+        }
+
+        // updates the 'brochureFilename' property to store the PDF file name
+        // instead of its contents
+        $article->setImage($newFilename);
+    }
     $em=$doctrine->getManager();
     $article->setNomArticle($form->get('Nom_article')->getData());
     $em->flush();

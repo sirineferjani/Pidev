@@ -14,6 +14,7 @@ class Article
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message:"La référence de l'article est obligatoire")]
     #[ORM\Column]
     private ?int $ref_article = null;
 
