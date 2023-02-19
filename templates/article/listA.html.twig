@@ -11,6 +11,7 @@
             <tr>
                 <th>ref_article</th>
                 <th>Nom_article</th>
+                <th>Categorie</th>
                 <th>Description</th>
                 <th>Prix</th>
                 <th>Image</th>
@@ -22,6 +23,7 @@
             <tr>
                 <td>{{ a.getRefArticle()}}</td>
                 <td>{{ a.getNomArticle() }}</td>
+                <td>{{ a.getCategories().getNomC() }}</td>
                 <td>{{ a.getDescription() }}</td>
                 <td>{{ a.getPrix ()}}</td>
                 <td><img style="width:200px;" src="{{asset ('uploads/articles/'~a.image)}}" ></td>
@@ -39,6 +41,7 @@
 </table>
 </center>
 <a class="btn btn-outline-secondary" href="{{ path ('add') }}"  >ajouter</a> 
+
 </div>
 </main>
 {% endblock %}

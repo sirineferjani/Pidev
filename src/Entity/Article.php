@@ -40,6 +40,9 @@ class Article
     #[ORM\Column(nullable: true)]
     private ?int $Stock = null;
 
+    #[ORM\ManyToOne(inversedBy: 'articles')]
+    private ?Categorie $categories = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -113,6 +116,18 @@ class Article
     public function setStock(?int $Stock): self
     {
         $this->Stock = $Stock;
+
+        return $this;
+    }
+
+    public function getCategories(): ?Categorie
+    {
+        return $this->categories;
+    }
+
+    public function setCategories(?Categorie $categories): self
+    {
+        $this->categories = $categories;
 
         return $this;
     }

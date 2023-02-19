@@ -1,0 +1,37 @@
+{% extends 'base-back.html.twig' %}
+
+{% block content %}
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-y">
+<h2> Liste des Categories </h2> 
+
+<div class="container">
+<table class="table text-black" border="2">
+<center>
+        <thead>
+            <tr>
+                
+                <th>nomC</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for c in categorie %}
+            <tr>
+                
+                <td>{{ c.getNomC() }}</td>
+                 <td><a href="{{path ('editC',{id:c.id})}}" class="btn btn-outline-secondary">modifier</a>
+                <td><a href="{{path ('deleteC',{id:c.id})}}" class="btn btn-outline-secondary" >supprimer</a></td></td>
+            </tr>
+         
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+</table>
+</center>
+<a class="btn btn-outline-secondary" href="{{ path ('addC') }}"  >ajouter</a> 
+</div>
+</main>
+{% endblock %}

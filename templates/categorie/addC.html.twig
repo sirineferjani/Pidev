@@ -1,0 +1,15 @@
+{% extends 'base-back.html.twig' %}
+{% form_theme formA 'bootstrap_4_layout.html.twig' %}
+
+{% block content %}
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-y">
+<div class="container-fluid py-4">
+<h6> Ajouter Categorie </h6> 
+{{form_start(formA,{'attr': {'novalidate': 'novalidate'}})}}
+{{form_row(formA.nomC,{'attr': {'placeholder':'Nom Categorie','class':'form-control-lg'}})}}
+{{form_end(formA)}}
+
+</div>
+</main>
+
+{% endblock %}

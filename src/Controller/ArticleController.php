@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Categorie;
 use App\Form\ArticleType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,6 +36,7 @@ class ArticleController extends AbstractController
     public function add(HttpFoundationRequest $request,ManagerRegistry $doctrine,SluggerInterface $slugger): Response
     {  
        $article=new Article;
+
        $form=$this->createForm(ArticleType::class,$article);
        $form->add('Enregistrer',SubmitType::class);
 
