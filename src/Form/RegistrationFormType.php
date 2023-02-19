@@ -53,7 +53,7 @@ class RegistrationFormType extends AbstractType
             ]),
         ],
     ])
-    ->add('ajouter',SubmitType::class)
+    
     ->add('roles', ChoiceType::class, [
         'choices' => [
             'Famille' => 'ROLE_FAMILLE',
@@ -87,8 +87,9 @@ class RegistrationFormType extends AbstractType
             ])
         ], 
     ])
+    
 
-;
+;  
 }
     public function configureOptions(OptionsResolver $resolver): void
     {

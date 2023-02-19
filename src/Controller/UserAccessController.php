@@ -105,8 +105,43 @@ public function edit(Request $request, User $user): Response
         return $this->render('client/client.html.twig');
     }
 
-    //***********************************Client End***********************************************************//
+      /**
+ * @Route("/famille", name="famille")
+ */
+public function indexfamille(): Response
+{
+    $user = $this->getUser();
 
+    return $this->render('client/famille.html.twig', [
+        'user' => $user,
+    ]);
+}
+
+/**
+ * @Route("/agence", name="agence")
+ */
+public function indexagence(): Response
+{
+    $user = $this->getUser();
+
+    return $this->render('client/agence.html.twig', [
+        'user' => $user,
+    ]);
+}
+
+/**
+ * @Route("/boutique", name="boutique")
+ */
+public function indexboutique(): Response
+{
+    $user = $this->getUser();
+
+    return $this->render('client/boutique.html.twig', [
+        'user' => $user,
+    ]);
+}
+
+    
 
 }
 
