@@ -7,7 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
- use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
         
         class UserAccessController extends AbstractController
         {
@@ -149,8 +150,32 @@ public function indexboutique(): Response
         'user' => $user,
     ]);
 }
+#[Route('/boutique_edit/{id}', name: 'boutique_edit')]
+public function editboutique(Request $request, User $user, EntityManagerInterface $entityManager): Response
+{  
+    $form = $this->createForm(RegistrationFormType::class, $user);
+    $form->add('modifier', SubmitType::class);
+    $form->handleRequest($request);
 
-    
+    if ($form->isSubmitted()) {
+        $file = $form->get('Photo')->getData();
+        if ($file) {
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move(
+                $this->getParameter('img_directory'),
+                $fileName
+            );
+            $user->setImage($fileName);
+        }
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('boutique');
+    }
+
+    return $this->renderForm('client/editboutique.html.twig', ['form' => $form]);
+}
+
 
 }
 

@@ -8,7 +8,8 @@
   </div>
   <nav>
     <ul>
-      <li><a href="#">Ma Boutique</a></li>
+      <li class="profil-link"><a href="#">Ma Boutique</a></li>
+      <li class="profil-link"><a href="{{ path('boutique_edit', {'id': user.id}) }}">Modifier Mon Profil</a></li>
     </ul>
   </nav>
 </header>

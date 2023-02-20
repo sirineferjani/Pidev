@@ -23,7 +23,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 20px;
-    background-color:  rgb(175, 225, 175);
+    background-color: white;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
   
@@ -53,5 +53,28 @@
   nav a:hover {
     color: #007bff;
   }
-  
+  nav ul {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    list-style: none;
+    }
+    
+    nav li {
+    margin: 0 10px;
+    }
+    
+    .boutique-link a {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #333;
+    text-transform: uppercase;
+    }
+    
+    .profil-link a {
+    font-size: 1rem;
+    color: #666;
+    }
+    
+    
   
