@@ -1,56 +1,71 @@
-{% extends 'base-front.html.twig' %}
-
-{% block footer %} {% endblock %}
-{% block header %}
-<header>
-  <div class="logo">
-    <img src="{{ asset('front/images/logo/Layer1.png') }}" alt="Logo">
-  </div>
-  <nav>
-    <ul>
-      <li class="profil-link"><a href="#">Ma Boutique</a></li>
-      <li class="profil-link"><a href="{{ path('boutique_edit', {'id': user.id}) }}">Modifier Mon Profil</a></li>
-    </ul>
-  </nav>
-</header>
-{% endblock %}
-
-{% block stylesheet %} 
-<link rel="stylesheet" type="text/css" href="{{ asset('front/css/client.css') }}" >
-{% endblock %}
+{% extends 'base-client.html.twig' %}
 
 {% block body %}
-    {% if is_granted('ROLE_USER') %}
+
+{% if is_granted('ROLE_USER') %}
+<div class="container mt-5">
     <div class="row">
-    <div class="container-form">
-    <div class="col-md-4 gradient-custom text-center text-white"
-         style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-           <img class="img-fluid my-5 mx-auto" style="width: 80px; border-radius: 50%;"
-         src="{{ asset('uploads/images/' ~ app.user.image) }}" alt="..." />
-        <h5>{{ app.user.username }}</h5>
-        <i class="far fa-edit mb-5"></i>
-    </div>
-    <div class="col-md-8">
-        <div class="card-body p-4">
-            <h6>Information</h6>
-            <hr class="mt-0 mb-4">
-            <div class="row pt-1">
-                <div class="col-6 mb-3">
-                    <h6>Email</h6>
-                    <p class="text-muted">{{ app.user.email }}</p>
+        <div class="col-lg-4 pb-5">
+            <!-- Account Sidebar-->
+            <div class="author-card pb-3">
+                <div class="author-card-cover" style="background-image: url(https://bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg);"></div>
+                <div class="author-card-profile">
+                    <div class="author-card-avatar"><img  src="{{ asset('uploads/images/' ~ app.user.image) }}" alt="...">
+                    </div>
+                    <div class="author-card-details">
+                        <h5 class="author-card-name text-lg">{{ app.user.username }}</</h5><span class="author-card-position">Joined February 06, 2017</span>
+                    </div>
                 </div>
             </div>
-  
-            <div class="d-flex justify-content-start">
-                <a href="#!"><i class="fab fa-facebook-f fa-lg me-3"></i></a>
-                <a href="#!"><i class="fab fa-twitter fa-lg me-3"></i></a>
-                <a href="#!"><i class="fab fa-instagram fa-lg"></i></a>
+            <div class="wizard">
+                <nav class="list-group list-group-flush">
+                    <a class="list-group-item" href="#">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div><i class="fe-icon-shopping-bag mr-1 text-muted"></i>
+                                <div class="d-inline-block font-weight-medium text-uppercase">My Store</div>
+                            </div><span class="badge badge-secondary">6</span>
+                        </div>
+                    </a><a class="list-group-item active" href="#"><i class="fe-icon-user text-muted"></i>My Profile</a><a class="list-group-item" href="#"><i class="fe-icon-map-pin text-muted"></i>Addresses</a>
+                    <a class="list-group-item" href="{{ path('boutique_edit', {'id': user.id}) }}" target="__blank">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div><i class="fe-icon-heart mr-1 text-muted"></i>
+                                <div class="d-inline-block font-weight-medium text-uppercase">Profile Settings</div>
+                            </div><span class="badge badge-secondary"></span>
+                        </div>
+                    </a>
+                    <a class="list-group-item" href="https://www.bootdey.com/snippets/view/bs4-account-tickets" target="__blank">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div><i class="fe-icon-tag mr-1 text-muted"></i>
+                                <div class="d-inline-block font-weight-medium text-uppercase">My Tickets</div>
+                            </div><span class="badge badge-secondary"></span>
+                        </div>
+                    </a>
+                </nav>
             </div>
         </div>
+        <!-- Profile Settings-->
+ <div class="col-lg-8 pb-5">
+  <form class="row form-custom">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="account-fn">UserName</label>
+        <input class="form-control" type="text" id="account-fn" value="{{ app.user.username }}" required="">
+      </div>
     </div>
-    
+    <div class="col-md-6">
+      <!-- Une colonne vide pour séparer les champs -->
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="account-ln">Email Address</label>
+        <input class="form-control" type="text" id="account-ln" value="{{ app.user.email }}" required="">
+      </div>
+    </div>
+  </form>
+</div>
+
+</div>
 {% else %}
     <p>Please log in to view your information</p>
 {% endif %}
-
 {% endblock %}
