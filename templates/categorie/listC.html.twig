@@ -9,16 +9,18 @@
 <center>
         <thead>
             <tr>
-                
+                 <th>id</th>
                 <th>nomC</th>
+                <th></th>
+                <th></th>
 
             </tr>
         </thead>
         <tbody>
         {% for c in categorie %}
             <tr>
-                
-                <td>{{ c.getNomC() }}</td>
+                <td>{{ c.id }}</td>
+                <td>{{ c.NomC }}</td>
                  <td><a href="{{path ('editC',{id:c.id})}}" class="btn btn-outline-secondary">modifier</a>
                 <td><a href="{{path ('deleteC',{id:c.id})}}" class="btn btn-outline-secondary" >supprimer</a></td></td>
             </tr>

@@ -1,12 +1,14 @@
 {% extends 'base-back.html.twig' %}
 
 {% block content %}
-<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-y">
-<h2> Liste des Articles </h2> 
+<div class="row" style="display: flex;align-items: center; margin-left:256px ;margin-top: 0px;">
+        <div class="col-lg-6">
+           
+                <div class="card-body">
+                    <h5 class="card-title">Liste des articles</h5>
+                    <!-- Table with stripped rows -->
+                    <table class="table table-striped">
 
-<div class="container">
-<table class="table text-black" border="2">
-<center>
         <thead>
             <tr>
                 <th>ref_article</th>
@@ -16,6 +18,8 @@
                 <th>Prix</th>
                 <th>Image</th>
                 <th>Stock</th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -29,8 +33,8 @@
                 <td><img style="width:200px;" src="{{asset ('uploads/articles/'~a.image)}}" ></td>
                 <td>{{ a.getStock() }}</td>
 
-                               <td><a href="{{path ('editA',{id:a.id})}}" class="btn btn-outline-secondary">modifier</a>
-                <td><a href="{{path ('deleteA',{id:a.id})}}" class="btn btn-outline-secondary" >supprimer</a></td></td>
+                <td><a href="{{path ('editA',{id:a.id})}}" class="btn btn-outline-secondary">modifier</a></td>
+                <td><a href="{{path ('deleteA',{id:a.id})}}" class="btn btn-outline-secondary" >supprimer</a></td>
             </tr>
         {% else %}
             <tr>
@@ -38,10 +42,15 @@
             </tr>
         {% endfor %}
         </tbody>
+        
 </table>
-</center>
-<a class="btn btn-outline-secondary" href="{{ path ('add') }}"  >ajouter</a> 
+</div>
 
 </div>
-</main>
+
+<a class="btn btn-outline-secondary" href="{{ path ('add') }}"  >ajouter</a> 
+<br>
+</div>
+
+
 {% endblock %}
