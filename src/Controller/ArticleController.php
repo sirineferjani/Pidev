@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\Categorie;
 use App\Form\ArticleType;
+use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +20,7 @@ class ArticleController extends AbstractController
     #[Route('/article', name: 'app_article')]
     public function index(): Response
     {
-        return $this->render('base-back.html.twig', [
+        return $this->render('article/index.html.twig', [
             'controller_name' => 'ArticleController',
         ]);
     }
@@ -135,4 +136,14 @@ public function show(ManagerRegistry $doctrine): Response
         'article' => $article,
     ]);
 }
+
+#[Route('getart/{id}',name:'detailf')]
+public function show_id(ManagerRegistry $doctrine,$id)
+{
+    $repository=$doctrine->getRepository(Article::class);
+    $art=$repository->find($id);
+    return $this->render('article/detailf.html.twig',['article'=>$art]);
+}
+
+
 }

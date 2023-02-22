@@ -83,4 +83,24 @@ public function deleteC (ManagerRegistry $doctrine,$id):Response
     return $this->redirectToRoute('listC');
 }
 
+    #[Route('/listCf', name: 'affich_cat')]
+    public function listcf(ManagerRegistry $doctrine): Response
+    {  
+        $repository= $doctrine->getRepository(Categorie::class);
+        $categorie=$repository->findAll();
+        return $this->render('categorie/catfront.html.twig', [
+            'categorie' => $categorie,
+        ]);
+    }
+
+    #[Route('/getpf/{id}', name:'atrcat')]
+    public function listarticlecat(ManagerRegistry $doctrine,$id):Response
+    {
+        $rep=$doctrine->getRepository(Categorie::class);
+        $cat=$rep->find($id);
+        return $this->render('categorie/articlecategorie.html.twig',['cat'=>$cat,'id'=>$id,]);
+    }
+
+
+
 }
