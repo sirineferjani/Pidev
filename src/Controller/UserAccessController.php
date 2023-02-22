@@ -2,7 +2,7 @@
 namespace App\Controller;
     
 use App\Entity\User;
-use App\Form\RegistrationFormType;
+use App\Form\ProfileFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,7 +38,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
              */
             public function edit(Request $request, User $user): Response
             {
-                $form = $this->createForm(RegistrationFormType::class, $user);
+                $form = $this->createForm(ProfileFormType::class, $user);
                 $form->handleRequest($request);
         
                 if ($form->isSubmitted() && $form->isValid()) {
@@ -61,7 +61,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
                     $this->entityManager->flush();
         
                     // Create a new form with the updated data
-                    $newForm = $this->createForm(RegistrationFormType::class, $user);
+                    $newForm = $this->createForm(ProfileFormType::class, $user);
         
                     // Render the new form
                     return $this->render('admin/edit.html.twig', [
@@ -153,7 +153,7 @@ public function indexboutique(): Response
 #[Route('/boutique_edit/{id}', name: 'boutique_edit')]
 public function editboutique(Request $request, User $user, EntityManagerInterface $entityManager): Response
 {  
-    $form = $this->createForm(RegistrationFormType::class, $user);
+    $form = $this->createForm(ProfileFormType::class, $user);
     $form->add('modifier', SubmitType::class);
     $form->handleRequest($request);
 
@@ -176,6 +176,56 @@ public function editboutique(Request $request, User $user, EntityManagerInterfac
     return $this->renderForm('client/editboutique.html.twig', ['form' => $form]);
 }
 
+#[Route('/agence_edit/{id}', name: 'agence_edit')]
+public function editagence(Request $request, User $user, EntityManagerInterface $entityManager): Response
+{  
+    $form = $this->createForm(ProfileFormType::class, $user);
+    $form->add('modifier', SubmitType::class);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted()) {
+        $file = $form->get('Photo')->getData();
+        if ($file) {
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move(
+                $this->getParameter('img_directory'),
+                $fileName
+            );
+            $user->setImage($fileName);
+        }
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('agence');
+    }
+
+    return $this->renderForm('client/editagence.html.twig', ['form' => $form]);
+}
+#[Route('/famille_edit/{id}', name: 'famille_edit')]
+public function editfamille(Request $request, User $user, EntityManagerInterface $entityManager): Response
+{  
+    $form = $this->createForm(ProfileFormType::class, $user);
+    $form->add('modifier', SubmitType::class);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted()) {
+        $file = $form->get('Photo')->getData();
+        if ($file) {
+            $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+            $file->move(
+                $this->getParameter('img_directory'),
+                $fileName
+            );
+            $user->setImage($fileName);
+        }
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('famille');
+    }
+
+    return $this->renderForm('client/editfamille.html.twig', ['form' => $form]);
+}
 
 }
 
