@@ -68,7 +68,7 @@ class RegistrationController extends AbstractController
             // Set their role
             $user->setRoles(['roles']);
 
-            return $this->redirectToRoute('_profiler_home');
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('registration/register.html.twig', [
