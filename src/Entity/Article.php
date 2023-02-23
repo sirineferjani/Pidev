@@ -24,7 +24,7 @@ class Article
     private ?string $Nom_article = nULL;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message:"La description de l'articla est obligatoire")]
+    #[Assert\NotBlank(message:"La description de l'article est obligatoire")]
     #[Assert\Length(min:10,minMessage:"La description de l'article doit comporter au moins {{ limit }} caractéres")]
     private ?string $Description = null;
 
