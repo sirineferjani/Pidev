@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
         
         class UserAccessController extends AbstractController
         {
@@ -36,7 +37,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
             /**
              * @Route("/users/{id}/edit", name="user_edit")
              */
-            public function edit(Request $request, User $user): Response
+            public function edit(Request $request, User $user , UserPasswordHasherInterface $passwordHasher): Response
             {
                 $form = $this->createForm(ProfileFormType::class, $user);
                 $form->handleRequest($request);
@@ -56,21 +57,22 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
                         );
                         $user->setImage($fileName);
                     }
-
+                    $password = $form->get('password')->getData();
+                    if (!empty($password)) {
+                        $hashedPassword = $passwordHasher->hashPassword($user, $password);
+                        $user->setPassword($hashedPassword);
+                    }
         
                     $this->entityManager->flush();
         
                     // Create a new form with the updated data
-                    $newForm = $this->createForm(ProfileFormType::class, $user);
+                    $form = $this->createForm(ProfileFormType::class, $user);
         
                     // Render the new form
-                    return $this->render('admin/edit.html.twig', [
-                        'form' => $newForm->createView(),
-                    ]);
+                    return $this->redirectToRoute('display');
                 }
         
                 return $this->render('admin/edit.html.twig', [
-                    'user' => $user,
                     'form' => $form->createView(),
                 ]);
             }
@@ -151,7 +153,7 @@ public function indexboutique(): Response
     ]);
 }
 #[Route('/boutique_edit/{id}', name: 'boutique_edit')]
-public function editboutique(Request $request, User $user, EntityManagerInterface $entityManager): Response
+public function editboutique(Request $request, User $user, EntityManagerInterface $entityManager,  UserPasswordHasherInterface $passwordHasher): Response
 {  
     $form = $this->createForm(ProfileFormType::class, $user);
     $form->add('modifier', SubmitType::class);
@@ -167,7 +169,12 @@ public function editboutique(Request $request, User $user, EntityManagerInterfac
             );
             $user->setImage($fileName);
         }
-
+          // Update the user's password if a new password is provided
+          $password = $form->get('password')->getData();
+          if (!empty($password)) {
+              $hashedPassword = $passwordHasher->hashPassword($user, $password);
+              $user->setPassword($hashedPassword);
+          }
         $entityManager->flush();
 
         return $this->redirectToRoute('boutique');
@@ -177,7 +184,7 @@ public function editboutique(Request $request, User $user, EntityManagerInterfac
 }
 
 #[Route('/agence_edit/{id}', name: 'agence_edit')]
-public function editagence(Request $request, User $user, EntityManagerInterface $entityManager): Response
+public function editagence(Request $request, User $user, EntityManagerInterface $entityManager,  UserPasswordHasherInterface $passwordHasher): Response
 {  
     $form = $this->createForm(ProfileFormType::class, $user);
     $form->add('modifier', SubmitType::class);
@@ -193,6 +200,11 @@ public function editagence(Request $request, User $user, EntityManagerInterface 
             );
             $user->setImage($fileName);
         }
+        $password = $form->get('password')->getData();
+          if (!empty($password)) {
+              $hashedPassword = $passwordHasher->hashPassword($user, $password);
+              $user->setPassword($hashedPassword);
+          }
 
         $entityManager->flush();
 
@@ -202,7 +214,7 @@ public function editagence(Request $request, User $user, EntityManagerInterface 
     return $this->renderForm('client/editagence.html.twig', ['form' => $form]);
 }
 #[Route('/famille_edit/{id}', name: 'famille_edit')]
-public function editfamille(Request $request, User $user, EntityManagerInterface $entityManager): Response
+public function editfamille(Request $request, User $user, EntityManagerInterface $entityManager,  UserPasswordHasherInterface $passwordHasher): Response
 {  
     $form = $this->createForm(ProfileFormType::class, $user);
     $form->add('modifier', SubmitType::class);
@@ -218,7 +230,11 @@ public function editfamille(Request $request, User $user, EntityManagerInterface
             );
             $user->setImage($fileName);
         }
-
+        $password = $form->get('password')->getData();
+          if (!empty($password)) {
+              $hashedPassword = $passwordHasher->hashPassword($user, $password);
+              $user->setPassword($hashedPassword);
+          }
         $entityManager->flush();
 
         return $this->redirectToRoute('famille');
