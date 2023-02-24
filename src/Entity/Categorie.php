@@ -22,7 +22,7 @@ class Categorie
     #[Assert\Regex(pattern: '/^[a-z\s]+$/i',htmlPattern: '^[a-zA-Z\s]+$',message:"Le nom de la categorie doit contenir que des lettres")]
     private ?string $nomC = null;
 
-    #[ORM\OneToMany(mappedBy: 'categories', targetEntity: Article::class)]
+    #[ORM\OneToMany(mappedBy: 'categories', targetEntity: Article::class, orphanRemoval: true)]
     private Collection $articles;
 
     public function __construct()
