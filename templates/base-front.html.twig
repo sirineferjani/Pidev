@@ -110,11 +110,10 @@
 							<div class="menu-wrapper float-left">
 								<nav id="mega-menu-holder" class="clearfix"> 
 									<ul class="clearfix">
-										<li class="active"><a href="index.html">Home</a></li>
-										<li><a href="team.html">Activitiés</a></li>
-										<li><a href="service.html">Boutiques</a></li>
-										<li><a href="{{path('app_register')}}">Inscrivez-vous!</a></li>
-										<li><a href="{{path('app_login')}}">connectez-vous!</a></li>
+
+										<li><a href="{{path('activite')}}">Activities</a></li>
+										<li><a href="{{path('store')}}">stores</a></li>
+									  <li><a href="{{path('app_register')}}">Sign Up</a></li>
 									</ul>
 								</nav> <!-- /#mega-menu-holder -->
 							</div> <!-- /.menu-wrapper -->
@@ -142,6 +141,72 @@
 {% endblock %}
 
   {% block body %}
+
+			
+			<!-- 
+			=============================================
+				About Company Stye Two
+			============================================== 
+			-->
+			<div class="about-compnay-two no-bg section-spacing">
+				<div class="overlay">
+					<div class="container">
+						<div class="row">
+							<div class="col-lg-6 col-12 text order-lg-last">
+								<div class="theme-title-one">
+									<h2>SHORT HISTORY</h2>
+								</div> <!-- /.theme-title-one -->
+								<p>Adventure sports are an exciting way to bond with family and friends while also pushing oneself out of their comfort zone. They provide an opportunity for families to come together and create memories that will last a lifetime. However, planning an adventure sports trip can be a daunting task, as it involves organizing transportation, equipment, and accommodations. This is where ATP, our application, comes in. Our user-friendly interface makes planning a trip easy and efficient, allowing families to focus on the fun and excitement of the adventure. With ATP, families can explore new destinations, try new activities, and challenge themselves while creating unforgettable memories. Our application takes care of everything from start to finish, ensuring a seamless experience for all involved. So why not try adventure sports with your family and let ATP do the rest?
+								</p>
+								<img src="{{ asset('front/images/signature-black.svg') }}" alt="" class="sign">
+							</div> <!-- /.col- -->
+							<div class="col-lg-6 col-12 order-lg-first">
+								<img src="{{ asset('front/images/about/1.jpeg') }}"alt="" class="left-img img-fluid mt-5">
+							</div>
+						</div> <!-- /.row -->
+					</div> <!-- /.container -->
+				</div> <!-- /.overlay -->
+			</div> <!-- /.about-compnay-two -->
+
+
+			<!--
+			=====================================================
+				Why We Best
+			=====================================================
+			-->
+			<div class="why-we-best">
+				<div class="overlay">
+					<div class="container">
+						<div class="theme-title-one">
+							<h2>WE ARE ALWAYS BEST</h2>
+							<p>A tale of a fateful trip that started from this tropic port aboard this tiny ship today stillers</p>
+						</div> <!-- /.theme-title-one -->
+
+						<div class="wrapper row no-gutters">
+							<div class="col-lg-6 col-12 order-lg-last"><div class="img-box"></div></div>
+							<div class="col-lg-6 col-12 order-lg-first">
+								<ul class="best-list-item">
+									<li> "{{ asset('front/images/icon/data-report.svg') }}"
+										<img src= "{{ asset('front/images/icon/data-report.svg') }}" class="icon">
+										<h5><a href="#">Best Strategy</a></h5>
+										<p>The Love Boat soon will be making another run plore strange tools enter new worlds.</p>
+									</li>
+									<li> 
+										<img src="{{ asset('front/images/icon/commissions.svg') }}" class="icon">
+										<h5><a href="#">High-Quality Services</a></h5>
+										<p>The Love Boat soon will be making another run plore strange tools enter new worlds.</p>
+									</li>
+									<li>   
+										<img src="{{ asset('front/images/icon/customer-service.svg') }}"class="icon">
+										<h5><a href="#">Friendly Support</a></h5>
+										<p>The Love Boat soon will be making another run plore strange tools enter new worlds.</p>
+									</li>
+								</ul>
+							</div> <!-- /.col- -->
+						</div> <!-- /.wrapper -->
+					</div> <!-- /.container -->
+				</div> <!-- /.overlay -->
+			</div> <!-- /.why-we-best -->
 
 
 

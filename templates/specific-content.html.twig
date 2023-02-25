@@ -1,4 +1,7 @@
-{% block stylesheet %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ {% block stylesheet %}
 		<meta charset="UTF-8">
 		<!-- Website Title -->
 		<title>Nedda - Business Corporation Bootstrap HTML Template</title>
@@ -19,7 +22,7 @@
 		<link rel="stylesheet" type="text/css" href="{{ asset('front/css/style.css') }}" >
 		<!-- responsive style sheet -->
 		<link rel="stylesheet" type="text/css" href="{{ asset('front/css/responsive.css') }}" >	
-	    
+	    <link rel="stylesheet" type="text/css" href="{{ asset('front/css/client.css') }}" >
  {% endblock %}
 
 {% block javascript %}
@@ -60,6 +63,15 @@
 		<script src="js/googlemap.js"></script>
 		</div> <!-- /.main-page-wrapper -->
 {% endblock %}
+ </head>
+<body>
+  
+  {% block body %}
+
+
+
+  {% endblock %}
+
 
 {% block footer %}
 <footer class="theme-footer-two">
@@ -122,3 +134,7 @@
 			 <!-- /.theme-footer-two -->	
 			 </footer>		
 {% endblock %}
+
+</body>
+</html>
+

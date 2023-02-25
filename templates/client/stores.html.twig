@@ -1,0 +1,290 @@
+{% extends 'base-front.html.twig' %}
+{% block header %}
+	<header class="header-two">
+				<div class="top-header">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-6 col-sm-8 col-12">
+								<ul class="left-widget">
+									
+									<li>
+										<div id="polyglotLanguageSwitcher">
+											<form action="#">
+												<select id="polyglot-language-options">
+													<option id="en" value="en" selected>English</option>
+													<option id="fr" value="fr">French</option>
+													<option id="de" value="de">German</option>
+													<option id="it" value="it">Italian</option>
+													<option id="es" value="es">Spanish</option>
+												</select>
+											</form>
+										</div> <!-- End #polyglotLanguageSwitcher -->
+									</li>
+								</ul>
+							</div>
+							<div class="col-md-6 col-sm-4 col-12">
+								<ul class="social-icon">
+									<li><a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+									<li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+									<li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+									<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+									<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+								</ul>
+							</div>
+						</div> <!-- /.row -->
+					</div> <!-- /.container -->
+				</div> <!-- /.top-header -->
+
+				<div class="theme-menu-wrapper">
+					<div class="container">
+						<div class="bg-wrapper clearfix">
+							<div class="logo float-left"><a href="index.html"><img class="logmer" src="{{ asset('front/images/logo/Layer1.png') }}" alt=""></a></div>
+							<!-- ============== Menu Warpper ================ -->
+							<div class="menu-wrapper float-left">
+								<nav id="mega-menu-holder" class="clearfix"> 
+									<ul class="clearfix">
+
+										<li><a href="{{path('activite')}}">Activities</a></li>
+										<li><a href="{{path('store')}}">stores</a></li>
+										     {% if app.user %}
+                                 {% if 'ROLE_AGENCE' in app.user.roles %}
+                                <li><a href="{{ path('agence') }}">Agence</a></li>
+                                 {% elseif 'ROLE_BOUTIQUE' in app.user.roles %}
+                                <li><a href="{{ path('boutique') }}">Boutique</a></li>
+                                 {% elseif 'ROLE_FAMILLE' in app.user.roles %}
+                                <li><a href="{{ path('famille') }}">Famille</a></li>
+                                 {% elseif 'ROLE_ADMIN' in app.user.roles %}
+                                 <li><a href="{{ path('display') }}">Display</a></li>
+                                 {% endif %}
+                                 {% else %}
+                                 <li><a href="{{ path('site') }}">Site</a></li>
+                                  {% endif %}
+									</ul>
+								</nav> <!-- /#mega-menu-holder -->
+							</div> <!-- /.menu-wrapper -->
+							<div class="right-widget float-right">
+								<ul>
+									<li class="cart-icon">
+										<a href="#"><i class="flaticon-tool"></i> <span>2</span></a>
+									</li>
+									<li class="search-option">
+										<div class="dropdown">
+											<button type="button" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-search" aria-hidden="true"></i></button>
+											<form action="#" class="dropdown-menu">
+												<input type="text" Placeholder="Enter Your Search">
+												<button><i class="fa fa-search"></i></button>
+											</form>
+										</div>
+									</li>
+								</ul>
+							</div> <!-- /.right-widget -->
+						</div> <!-- /.bg-wrapper -->
+					</div> <!-- /.container -->
+				</div> <!-- /.theme-menu-wrapper -->
+			  <!-- /.header-one -->
+			  </header>
+{% endblock %}
+{% block body %}
+
+<div class="main-page-wrapper">
+<!--
+			=====================================================
+				Our Team
+			=====================================================
+			-->
+			<div class="our-team section-spacing">
+				<div class="container">
+					<div class="theme-title-one margintop-70">
+						<h2>Our Stores</h2>
+						<p>We sincerely hope that you will enjoy our sport activities</p>
+					</div>
+					<div class="wrapper">
+						<div class="row">
+							<div class="col-lg-3 col-sm-6 col-12">
+								<div class="team-member">
+									<div class="image-box">
+										<img  src="{{ asset('front/images/store/1.png') }}" alt="">
+										<div class="overlay">
+											<div class="hover-content">
+												<ul>
+													<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+													<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+													<li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+												</ul>
+												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+											</div> <!-- /.hover-content -->
+										</div> <!-- /.overlay -->
+									</div> <!-- /.image-box -->
+									<div class="text">
+										<h6>Decathlon</h6>
+										<span>Short Description</span>
+									</div> <!-- /.text -->
+								</div> <!-- /.team-member -->
+							</div> <!-- /.col- -->
+							<div class="col-lg-3 col-sm-6 col-12">
+								<div class="team-member">
+									<div class="image-box">
+										<img src="{{ asset('front/images/store/2.png') }}"  alt="">
+										<div class="overlay">
+											<div class="hover-content">
+												<ul>
+													<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+													<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+													<li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+												</ul>
+												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+											</div> <!-- /.hover-content -->
+										</div> <!-- /.overlay -->
+									</div> <!-- /.image-box -->
+									<div class="text">
+										<h6>GO Sport</h6>
+										<span>Short Description</span>
+									</div> <!-- /.text -->
+								</div> <!-- /.team-member -->
+							</div> <!-- /.col- -->
+							<div class="col-lg-3 col-sm-6 col-12">
+								<div class="team-member">
+									<div class="image-box">
+										<img src="{{ asset('front/images/store/3.png') }}" alt="">
+										<div class="overlay">
+											<div class="hover-content">
+												<ul>
+													<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+													<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+													<li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+												</ul>
+												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+											</div> <!-- /.hover-content -->
+										</div> <!-- /.overlay -->
+									</div> <!-- /.image-box -->
+									<div class="text">
+										<h6>Inter Sport</h6>
+										<span>Short Description</span>
+									</div> <!-- /.text -->
+								</div> <!-- /.team-member -->
+							</div> <!-- /.col- -->
+							<div class="col-lg-3 col-sm-6 col-12">
+								<div class="team-member">
+									<div class="image-box">
+										<img  src="{{ asset('front/images/store/4.jpg') }}" alt="">
+										<div class="overlay">
+											<div class="hover-content">
+												<ul>
+													<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+													<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+													<li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+												</ul>
+												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+											</div> <!-- /.hover-content -->
+										</div> <!-- /.overlay -->
+									</div> <!-- /.image-box -->
+									<div class="text">
+										<h6>Sport Zone</h6>
+										<span>Short Description</span>
+									</div> <!-- /.text -->
+								</div> <!-- /.team-member -->
+							</div> <!-- /.col- -->
+
+						</div> <!-- /.row -->
+
+
+                        <div class="row">
+							<div class="col-lg-3 col-sm-6 col-12">
+								<div class="team-member">
+									<div class="image-box">
+										<img  src="{{ asset('front/images/store/5.jpg') }}" alt="">
+										<div class="overlay">
+											<div class="hover-content">
+												<ul>
+													<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+													<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+													<li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+												</ul>
+												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+											</div> <!-- /.hover-content -->
+										</div> <!-- /.overlay -->
+									</div> <!-- /.image-box -->
+									<div class="text">
+										<h6>La Sportiva</h6>
+										<span>Short Description</span>
+									</div> <!-- /.text -->
+								</div> <!-- /.team-member -->
+							</div> <!-- /.col- -->
+							<div class="col-lg-3 col-sm-6 col-12">
+								<div class="team-member">
+									<div class="image-box">
+										<img src="{{ asset('front/images/store/6.png') }}" alt="">
+										<div class="overlay">
+											<div class="hover-content">
+												<ul>
+													<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+													<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+													<li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+												</ul>
+												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+											</div> <!-- /.hover-content -->
+										</div> <!-- /.overlay -->
+									</div> <!-- /.image-box -->
+									<div class="text">
+										<h6>Sport Outlet</h6>
+										<span>Short Description</span>
+									</div> <!-- /.text -->
+								</div> <!-- /.team-member -->
+							</div> <!-- /.col- -->
+							<div class="col-lg-3 col-sm-6 col-12">
+								<div class="team-member">
+									<div class="image-box">
+										<img src="{{ asset('front/images/store/7.png') }}" alt="">
+										<div class="overlay">
+											<div class="hover-content">
+												<ul>
+													<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+													<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+													<li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+												</ul>
+												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+											</div> <!-- /.hover-content -->
+										</div> <!-- /.overlay -->
+									</div> <!-- /.image-box -->
+									<div class="text">
+										<h6>Sport Master</h6>
+										<span>Short Description</span>
+									</div> <!-- /.text -->
+								</div> <!-- /.team-member -->
+							</div> <!-- /.col- -->
+							<div class="col-lg-3 col-sm-6 col-12">
+								<div class="team-member">
+									<div class="image-box">
+										<img  src="{{ asset('front/images/store/8.png') }}"  alt="">
+										<div class="overlay">
+											<div class="hover-content">
+												<ul>
+													<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+													<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+													<li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+												</ul>
+												<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+											</div> <!-- /.hover-content -->
+										</div> <!-- /.overlay -->
+									</div> <!-- /.image-box -->
+									<div class="text">
+										<h6>Sport plus</h6>
+										<span>Short Description</span>
+									</div> <!-- /.text -->
+								</div> <!-- /.team-member -->
+							</div> <!-- /.col- -->
+
+						</div> <!-- /.row -->
+					</div> <!-- /.wrapper -->
+				</div> <!-- /.container -->
+			</div> <!-- /.our-team -->
+
+
+	        
+
+	        <!-- Scroll Top Button -->
+			<button class="scroll-top tran3s">
+				<i class="fa fa-angle-up" aria-hidden="true"></i>
+			</button>
+
+{% endblock %}

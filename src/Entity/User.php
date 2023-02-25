@@ -48,6 +48,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $image = null;
+    
+    #[Assert\NotBlank(message: "Please enter an address")]
+    #[ORM\Column(length: 255)]
+    private ?string $adress = null;
+    
+    #[Assert\NotBlank(message: "Please enter a phone number")]
+    #[Assert\Regex(pattern: "/^[5|2|9|7]+[0-9]*$/",message: "Numero Orange ou Telecom ou Ooreedoo ou FAX only" )]
+    #[Assert\Regex(pattern: "/^[0-9]*$/",message: "NumberOnly" )]
+    #[ORM\Column(length: 255)]
+    private ?string $phonenumber = null;
 
     public function getId(): ?int
     {
@@ -143,5 +153,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     return $this->username;
 }
+
+    public function getAdress(): ?string
+    {
+        return $this->adress;
+    }
+
+    public function setAdress(string $adress): self
+    {
+        $this->adress = $adress;
+
+        return $this;
+    }
+
+    public function getPhonenumber(): ?string
+    {
+        return $this->phonenumber;
+    }
+
+    public function setPhonenumber(string $phonenumber): self
+    {
+        $this->phonenumber = $phonenumber;
+
+        return $this;
+    }
 
 }

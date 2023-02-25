@@ -107,7 +107,14 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
         return $this->redirectToRoute('display');
     }
-   
+      /**
+     * @Route("/site", name="site")
+     */
+    public function indexsite(): Response
+    {
+
+        return $this->render('base-front.html.twig');
+    }
     /**
      * @Route("/client", name="_profiler_home")
      */
@@ -149,6 +156,30 @@ public function indexboutique(): Response
     $user = $this->getUser();
 
     return $this->render('client/boutique.html.twig', [
+        'user' => $user,
+    ]);
+}
+
+/**
+ * @Route("/activite", name="activite")
+ */
+public function indexactivite(): Response
+{
+    $user = $this->getUser();
+
+    return $this->render('client/activities.html.twig', [
+        'user' => $user,
+    ]);
+}
+
+/**
+ * @Route("/store", name="store")
+ */
+public function indexstore(): Response
+{
+    $user = $this->getUser();
+
+    return $this->render('client/stores.html.twig', [
         'user' => $user,
     ]);
 }
@@ -240,7 +271,10 @@ public function editfamille(Request $request, User $user, EntityManagerInterface
         return $this->redirectToRoute('famille');
     }
 
-    return $this->renderForm('client/editfamille.html.twig', ['form' => $form]);
+    return $this->render('client/editfamille.html.twig', [
+        'form' => $form->createView(),
+        'user' => $user, // Pass the "user" object to the view
+    ]);
 }
 
 }

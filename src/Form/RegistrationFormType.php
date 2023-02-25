@@ -87,8 +87,8 @@ class RegistrationFormType extends AbstractType
             ])
         ], 
     ])
-    
-
+    ->add('adress')
+    ->add('phonenumber')
 ;  
 }
     public function configureOptions(OptionsResolver $resolver): void

@@ -35,7 +35,14 @@
                   {{form_row(form.Photo,{'attr': {'placeholder':'Image Article','class':'form-control-lg'}})}}
               
               </div>
-
+              
+              <div class="form-group">
+                 {{ form_row(form.adress, {'attr': {'class': 'form-control'}}) }}
+              </div>
+               <div class="form-group">
+                 {{ form_row(form.phonenumber, {'attr': {'class': 'form-control'}}) }}
+              </div>
+              
             <div class="form-group">
                 <button type="submit" class="btn btn-block" style="background-color: rgb(173, 216, 230); color: white;">
                     Register

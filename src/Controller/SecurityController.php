@@ -5,8 +5,13 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\RedirectResponse ;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
+
 
 class SecurityController extends AbstractController
 {
@@ -33,13 +38,25 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
-    #[Route(path: '/logout', name: 'app_logout')]
-    public function logout(AuthenticationUtils $authenticationUtils): RedirectResponse
+    #[Route(path:'/logout', name: 'logout')]
+    public function logout(SessionInterface $session): Response
     {
-        // ... mettre en œuvre votre logique de déconnexion ici
-
-        // Rediriger l'utilisateur vers la page de connexion
-        return $this->redirectToRoute('app_login');
+        // Déconnectez l'utilisateur ici
+    
+        // Invalider la session utilisateur
+        $session->invalidate();
+    
+        $response = $this->redirectToRoute('app_login');
+    
+        // Empêcher la mise en cache de la page
+        $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');
+        $response->headers->set('Pragma', 'no-cache');
+        $response->headers->set('Expires', '0');
+    
+        return $response;
     }
+   
 }
+    
+    
     

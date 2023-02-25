@@ -73,7 +73,8 @@ class ProfileFormType extends AbstractType
             ])
         ], 
     ])
-    
+    ->add('adress')
+    ->add('phonenumber')
 
 ;  
 }
