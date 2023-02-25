@@ -11,6 +11,7 @@
             <tr>
               
                 <th>nom Categorie</th>
+                <th>Image categorie</th>
                 <th></th>
                 <th></th>
 
@@ -20,7 +21,8 @@
         {% for c in categorie %}
             <tr>
               
-                <td>{{ c.NomC }}</td>
+                 <td>{{ c.NomC }}</td>
+                 <td><img style="width:200px;" src="{{asset ('uploads/articles/'~c.imageC)}}" ></td>
                  <td><a href="{{path ('editC',{id:c.id})}}" class="btn btn-outline-secondary">modifier</a>
                 <td><a href="{{path ('deleteC',{id:c.id})}}" class="btn btn-outline-secondary" >supprimer</a></td></td>
             </tr>
