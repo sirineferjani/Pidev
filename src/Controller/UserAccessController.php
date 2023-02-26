@@ -23,15 +23,16 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
             /**
              * @Route("/access", name="display")
              */
-            public function index(): Response
-            {
+            public function index(Request $request): Response
+            {   $blocked = $request->query->get('blocked');
                 $users = $this->entityManager
                     ->getRepository(User::class)
                     ->findAll();
-            
-                return $this->render('admin/dashboard.html.twig', [
-                    'users' => $users
-                ]);
+                    return $this->render('admin/dashboard.html.twig', [
+                        'blocked' => $blocked,
+                        'users' => $users,
+                    ]);
+                
             }
             
             /**
@@ -123,7 +124,14 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
         return $this->render('client/client.html.twig');
     }
+        /**
+     * @Route("/blocked", name="blocked")
+     */
+    public function indexblocked(): Response
+    {
 
+        return $this->render('client/blocked.html.twig');
+    }
       /**
  * @Route("/famille", name="famille")
  */
@@ -276,7 +284,21 @@ public function editfamille(Request $request, User $user, EntityManagerInterface
         'user' => $user, // Pass the "user" object to the view
     ]);
 }
+#[Route(path:'/block/user/{id}', name: 'block_user')]
+public function blockUser(Request $request, $id)
+{
+    $user = $this->entityManager->getRepository(User::class)->find($id);
 
+    if (!$user) {
+        throw $this->createNotFoundException('No user found for id '.$id);
+    }
+
+    $user->setBlocked(true);
+    $this->entityManager->flush();
+
+    // Pass a parameter to indicate whether the user is blocked or not
+    return $this->redirectToRoute('display', ['blocked' => true]);
+}
 }
 
 

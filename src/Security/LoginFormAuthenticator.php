@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Security;
+
 use App\Entity\User;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +15,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+
 
 class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 {
@@ -42,20 +44,51 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
-            return new RedirectResponse($targetPath);
-        }
-         
         if (in_array('ROLE_AGENCE', $token->getUser()->getRoles(), true)) {
-            return new RedirectResponse($this->urlGenerator->generate('agence'));
-       } elseif (in_array('ROLE_BOUTIQUE', $token->getUser()->getRoles(), true)) {
-            return new RedirectResponse($this->urlGenerator->generate('boutique'));
-       } elseif (in_array('ROLE_FAMILLE', $token->getUser()->getRoles(), true)) {
-            return new RedirectResponse($this->urlGenerator->generate('famille'));
-       } elseif (in_array('ROLE_ADMIN', $token->getUser()->getRoles(), true)) {
-            return new RedirectResponse($this->urlGenerator->generate('display'));
-       }
-    }
+            // If user is an agency
+            if ($token->getUser()->isBlocked()) {
+                // If user is blocked, redirect to blocked page
+                return new RedirectResponse($this->urlGenerator->generate('blocked'));
+            } else {
+                // If user is not blocked, redirect to agency page
+                return new RedirectResponse($this->urlGenerator->generate('agence'));
+            }
+        } elseif (in_array('ROLE_BOUTIQUE', $token->getUser()->getRoles(), true)) {
+            // If user is a boutique
+            if ($token->getUser()->isBlocked()) {
+                // If user is blocked, redirect to blocked page
+                return new RedirectResponse($this->urlGenerator->generate('blocked'));
+            } else {
+                // If user is not blocked, redirect to boutique page
+                return new RedirectResponse($this->urlGenerator->generate('boutique'));
+            }
+        } elseif (in_array('ROLE_FAMILLE', $token->getUser()->getRoles(), true)) {
+            // If user is a family
+            if ($token->getUser()->isBlocked()) {
+                // If user is blocked, redirect to blocked page
+                return new RedirectResponse($this->urlGenerator->generate('blocked'));
+            } else {
+                // If user is not blocked, redirect to family page
+                return new RedirectResponse($this->urlGenerator->generate('famille'));
+            }
+        } elseif (in_array('ROLE_ADMIN', $token->getUser()->getRoles(), true)) {
+            // If user is an admin
+            if ($token->getUser()->isBlocked()) {
+                // If user is blocked, redirect to blocked page
+                return new RedirectResponse($this->urlGenerator->generate('blocked'));
+            } else {
+                // If user is not blocked, redirect to admin page
+                return new RedirectResponse($this->urlGenerator->generate('display'));
+            }
+        } else {
+            // If user has no role or unrecognized role, redirect to login page
+            return new RedirectResponse($this->urlGenerator->generate('app_login'));
+        }
+    }        
+    
+    
+    
+    
 
 
     protected function getLoginUrl(Request $request): string

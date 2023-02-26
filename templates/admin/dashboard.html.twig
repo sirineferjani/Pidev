@@ -32,8 +32,21 @@
                                             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
                                             <button type="submit" class="btn btn-danger">Supprimer</button>
                                         </form>
+                                        
                                     </td>
-                                </tr>
+                                    <td>
+                                       {% if user.blocked %}
+            <button disabled>Bloqué</button>
+        {% else %}
+            {% if blocked %}
+                <button disabled>Bloquer</button>
+            {% else %}
+                <a href="{{ path('block_user', {'id': user.id}) }}"><button>Bloquer</button></a>
+            {% endif %}
+        {% endif %}
+        {{ dump(user.blocked) }}
+                               </td> </tr>
+                                
                             {% endfor %}
                         </tbody>
                     </table>
