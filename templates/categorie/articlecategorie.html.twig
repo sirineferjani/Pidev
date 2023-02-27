@@ -11,6 +11,13 @@
                             <!-- Product details-->
                             <div class="card-body p-4">
                                 <div class="text-center">
+                                
+                                {% if a.getStock()==0 %}
+                                    <div class="product-label">
+										  <style>.new {   background-color: #D10024; border-color: #D10024;color: #FFF; } </style>
+											<span class="new">Sold Out</span>
+										</div>
+                                {% endif %}        
                                     <!-- Product name-->
                                     <a href="{{path('detailf',{id:a.id})}}"><h5 class="fw-bolder">{{a.getNomArticle()}}</h5></a>
                                     <!-- Product price-->

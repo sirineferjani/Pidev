@@ -13,6 +13,14 @@
                     <div class="col-md-5">
 						<div class="product-details">
 							<h2 class="product-name">{{article.getNomArticle()}}</h2>
+					 {% if article.getStock()==0 %}
+                            
+                                    <div class="product-label">
+										<style>.new {  background-color: #D10024; border-color: #D10024;  color: #FFF;} </style>
+										<span class="new">Sold Out</span>  
+									</div>
+                                        
+                     {% endif %}    
 							{# <div>
 								<div class="product-rating">
 									<i class="fa fa-star"></i>
@@ -62,4 +70,5 @@
 </div>
 </div>
 </div>
+
 {% endblock %}
