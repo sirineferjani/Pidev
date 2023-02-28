@@ -38,6 +38,19 @@ class ArticleRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function Findprodbycat($n)
+    {
+        $entityManager=$this->getEntityManager();
+        $query=$entityManager->createQuery("SELECT a FROM App\Entity\Article a JOIN a.categories c WHERE c.id=:n")->setParameter('n',$n);
+        return $query->getResult();
+    }
+  /*  public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
+    {
+      $persister = $this->_em->getUnitOfWork()->getEntityPersister($this->_entityName);
+      
+      return $persister ->loadAll($criteria, $orderBy, $limit, $offset);
+
+    } */
 
 //    /**
 //     * @return Article[] Returns an array of Article objects

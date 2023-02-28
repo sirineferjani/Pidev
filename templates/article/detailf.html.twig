@@ -1,8 +1,8 @@
 {% extends 'base-front.html.twig' %}
 {% block body %}
 <div class="section">
-			<div class="container">
-				<div class="row">
+	<div class="container">
+		<div class="row">
                 <div class="col-md-5 col-md-push-2">
 						<div id="product-main-img">
 							<div class="product-preview">
@@ -33,7 +33,7 @@
 							</div> #}
 							<div>
 								<h3 class="product-price">{{article.getPrix ()}}DT</h3>
-								<span class="product-available">In Stock</span>
+						
 							</div>
 							<p>{{article.getDescription()}}</p>
 
@@ -63,12 +63,12 @@
 								</div>
 								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
 							</div>
-
+                           
 							
 						</div>
-					</div>
-</div>
-</div>
+				</div>
+         </div>
+    </div>
 </div>
 
 {% endblock %}

@@ -11,6 +11,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\CategorieRepository;
 use App\Form\CategorieType;
 use App\Entity\Article;
+use App\Repository\ArticleRepository;
+use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -149,6 +152,6 @@ public function deleteC (ManagerRegistry $doctrine,$id):Response
         return $this->render('categorie/articlecategorie.html.twig',['cat'=>$cat,'id'=>$id,]);
     }
 
-
-
 }
+
+

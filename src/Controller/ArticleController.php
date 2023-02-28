@@ -4,20 +4,26 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Categorie;
+use App\Entity\Commentaire;
 use App\Form\ArticleType;
+use App\Form\CommentaireType;
 use App\Repository\ArticleRepository;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+
 class ArticleController extends AbstractController
 {
-    #[Route('/article', name: 'app_article')]
+    #[Route('/article', name: 'article')]
     public function index(): Response
     {
         return $this->render('article/index.html.twig', [
@@ -136,14 +142,46 @@ public function show(ManagerRegistry $doctrine): Response
         'article' => $article,
     ]);
 }
-
+#[Route('/Commentaire', name: 'listCom')]
+public function listcom(ManagerRegistry $doctrine): Response
+{  
+    $repository= $doctrine->getRepository(Commentaire::class);
+    $commentaire=$repository->findAll();
+    return $this->render('article/detailf.html.twig', [
+        'commentaire' => $commentaire,
+    ]);
+}
 #[Route('getart/{id}',name:'detailf')]
-public function show_id(ManagerRegistry $doctrine,$id)
-{
+public function show_id(ManagerRegistry $doctrine,$id,HttpFoundationRequest $request )
+{   
+    
+
+
     $repository=$doctrine->getRepository(Article::class);
     $art=$repository->find($id);
-    return $this->render('article/detailf.html.twig',['article'=>$art]);
+
+    return $this->render('article/detailf.html.twig',['article'=>$art,
+        ]);
 }
+
+
+    
+#[Route('/catprod/{id}', name: 'prodbycat')]
+public function show_prodcat($id,ArticleRepository $rep, PaginatorInterface $pagination,HttpFoundationRequest $request ): Response
+{
+    //$produits = $rep->Findprodbycat($id);
+    $prod=$pagination->paginate(
+        $article = $rep->Findprodbycat($id),
+        $request->query->getInt('page',1),
+        //$nb=count($produits),
+        1,
+    );
+    return $this->render('article/listArticle.html.twig', [
+        'article' => $prod,
+        'id' => $id,
+    ]);
+}
+
 
 
 }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -42,6 +44,8 @@ class Article
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
     private ?Categorie $categories = null;
+
+
 
     public function getId(): ?int
     {
@@ -131,4 +135,11 @@ class Article
 
         return $this;
     }
+
+    public function outofstock():bool
+    {
+        return $this->getStock()==0;
+    }
+
+ 
 }
