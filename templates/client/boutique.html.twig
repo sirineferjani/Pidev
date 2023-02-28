@@ -61,7 +61,7 @@
 
 {% block body %}
 
-{% if is_granted('ROLE_AGENCE') %}
+{% if is_granted('ROLE_BOUTIQUE') %}
 <div class="container mt-5">
     <div class="row">
         <div class="col-lg-4 pb-">
@@ -90,6 +90,11 @@
                                 <div class="d-inline-block font-weight-medium text-uppercase">Log Out</div>
                             </div><span class="badge badge-secondary"></span>
                         </div>
+                    </a>
+                    <div>
+                    <a>
+                 <img src="{{ path('generate_qr_code', {'id': user.id}) }}" alt="QR Code">
+                  </div>
                     </a>
                 </nav>
             </div>

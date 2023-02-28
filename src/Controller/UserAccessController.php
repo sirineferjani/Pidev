@@ -10,6 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Endroid\QrCodeBundle\Response\QrCodeResponse;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
         
         class UserAccessController extends AbstractController
         {
@@ -141,6 +144,7 @@ public function indexfamille(): Response
 
     return $this->render('client/famille.html.twig', [
         'user' => $user,
+      
     ]);
 }
 
@@ -299,6 +303,39 @@ public function blockUser(Request $request, $id)
     // Pass a parameter to indicate whether the user is blocked or not
     return $this->redirectToRoute('display', ['blocked' => true]);
 }
+
+#[Route(path:'/user/{id}/qr-code', name: 'generate_qr_code')]
+public function generateQrCodeForUser($id)
+{
+    // Get the user from the database
+    $user = $this->entityManager->getRepository(User::class)->find($id);
+    // Check if the user exists
+    if (!$user) {
+        throw $this->createNotFoundException('User not found');
+    }
+
+    // Generate the QR code
+    $qrCode = new QrCode($user->getUsername());
+
+    // Set the QR code options
+    $qrCode->setSize(300);
+    $qrCode->setMargin(10);
+    
+    // Generate the PNG image data
+    $writer = new PngWriter();
+    $qrCodeData = $writer->write($qrCode);
+
+// Return the QR code as an image response
+$response = new Response($qrCodeData->getString(), Response::HTTP_OK, [
+    'Content-Type' => $qrCodeData->getMimeType(),
+]);
+$response->setEtag(md5($qrCodeData->getString()));
+$response->setPublic();
+return $response;
+    
+    
 }
+}
+
 
 
