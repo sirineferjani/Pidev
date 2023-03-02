@@ -7,8 +7,9 @@ use App\Entity\Categorie;
 use App\Entity\Commentaire;
 use App\Form\ArticleType;
 use App\Form\CommentaireType;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use App\Repository\ArticleRepository;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -181,7 +182,35 @@ public function show_prodcat($id,ArticleRepository $rep, PaginatorInterface $pag
         'id' => $id,
     ]);
 }
+//Exporter pdf (composer require dompdf/dompdf)
+    
+      #[Route("/pdf", name:"PDF_Article", methods:("GET"))]
+     
+    public function pdf(ArticleRepository $Repository)
+    {
+        // Configure Dompdf according to your needs
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
 
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('article/listpdf.html.twig', [
+            'article' => $Repository->findAll(),
+        ]);
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+        // Output the generated PDF to Browser (inline view)
+        $dompdf->stream("ListeDesArticles.pdf", [
+            "article" => true
+        ]);
+    }
 
 
 }

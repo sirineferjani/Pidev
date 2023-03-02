@@ -40,7 +40,7 @@ class CategorieController extends AbstractController
         ]);
     }
     #[Route('/addC', name: 'addC')]
-    public function addC (HttpFoundationRequest $request,ManagerRegistry $doctrine,SluggerInterface $slugger): Response
+    public function addC (HttpFoundationRequest $request,ManagerRegistry $doctrine,SluggerInterface $slugger,CategorieRepository $repository): Response
     {          
       
        $categorie=new Categorie;
@@ -76,6 +76,8 @@ class CategorieController extends AbstractController
         }
         $em=$doctrine->getManager();
         $em-> persist ($categorie);
+        $em->flush();
+        $repository->sms();
         $em->flush();
         return $this->redirectToRoute('listC');
        }
@@ -151,7 +153,20 @@ public function deleteC (ManagerRegistry $doctrine,$id):Response
         $cat=$rep->find($id);
         return $this->render('categorie/articlecategorie.html.twig',['cat'=>$cat,'id'=>$id,]);
     }
+    #[Route('/traiter/{id}', name: 'AjoutCat')]
+    function Traiter(CategorieRepository $repository, $id, Request $request, ManagerRegistry $doctrine)
+    {
 
+        $categorie = new Categorie();
+        $categorie = $repository->find($id);
+        // $reclamation->setEtat(1 );
+        $em = $doctrine->getManager();
+        $em->flush();
+        $repository->sms();
+        $this->addFlash('danger', 'reponse envoyée avec succées');
+        return $this->redirectToRoute('AjoutCat');
+
+    }
 }
 
 
