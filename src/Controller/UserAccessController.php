@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
     
+use DateTime;
 use App\Entity\User;
 use App\Form\ProfileFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -258,7 +259,7 @@ public function editagence(Request $request, User $user, EntityManagerInterface 
 }
 #[Route('/famille_edit/{id}', name: 'famille_edit')]
 public function editfamille(Request $request, User $user, EntityManagerInterface $entityManager,  UserPasswordHasherInterface $passwordHasher): Response
-{  
+{   
     $form = $this->createForm(ProfileFormType::class, $user);
     $form->add('modifier', SubmitType::class);
     $form->handleRequest($request);
@@ -333,7 +334,34 @@ $response->setEtag(md5($qrCodeData->getString()));
 $response->setPublic();
 return $response;
     
-    
+}
+
+/**
+ * @Route("/chart", name="chart")
+ */
+public function chartAction(EntityManagerInterface $entityManager)
+{
+    $em =  $this->entityManager;
+
+    // Compter le nombre d'utilisateurs ayant chaque rôle
+    $agenceCount = $em->createQuery('SELECT COUNT(u) FROM App\Entity\User u WHERE u.roles LIKE :role')
+        ->setParameter('role', '%"ROLE_AGENCE"%')
+        ->getSingleScalarResult();
+    $boutiqueCount = $em->createQuery('SELECT COUNT(u) FROM App\Entity\User u WHERE u.roles LIKE :role')
+        ->setParameter('role', '%"ROLE_BOUTIQUE"%')
+        ->getSingleScalarResult();
+    $familleCount = $em->createQuery('SELECT COUNT(u) FROM App\Entity\User u WHERE u.roles LIKE :role')
+        ->setParameter('role', '%"ROLE_FAMILLE"%')
+        ->getSingleScalarResult();
+
+    // Créer les données pour le graphique
+    $data = array($agenceCount, $boutiqueCount, $familleCount);
+    $labels = array("Agence", "Boutique", "Famille");
+
+    return $this->render('admin/chart.html.twig', [
+        'data' => $data,
+        'labels' => $labels,
+    ]);
 }
 }
 
