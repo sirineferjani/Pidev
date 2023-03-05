@@ -18,6 +18,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -39,6 +41,18 @@ class CategorieController extends AbstractController
             'categorie' => $categorie,
         ]);
     }
+    // #[Route('/AllCategorie', name: 'listC1')]
+    // public function listj(ManagerRegistry $doctrine,SerializerInterface $serializer): Response
+    // {  
+    //     $repository= $doctrine->getRepository(Categorie::class);
+    //     $categorie=$repository->findAll();
+    //     $json = $serializer->serialize($categorie, 'json', ['groups' => "categorie"]);
+
+    //     return new Response($json);
+    //    /* return $this->render('categorie/listC.html.twig', [
+    //         'categorie' => $categorie,
+    //     ]); */
+    // }
     #[Route('/addC', name: 'addC')]
     public function addC (HttpFoundationRequest $request,ManagerRegistry $doctrine,SluggerInterface $slugger,CategorieRepository $repository): Response
     {          

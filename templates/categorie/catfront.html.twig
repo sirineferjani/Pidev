@@ -7,11 +7,11 @@
             <div class="col-md-4 col-xs-6">
 	            <div class="shop">
 		            <div class="shop-img" >
-			            <img  src="{{asset('uploads/articles/'~c.imageC)}}" alt="">
+			            <img style="width: 500px; height: 170px;"  src="{{asset('uploads/articles/'~c.imageC)}}" alt="">
 	                </div>
 		            <div class="shop-body">
 			            <h3>{{c.nomC}}</h3>
-				        <a href="{{ path ('prodbycat',{id:c.id})}}" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
+				        <a style="wmax-width: 100%; height: auto;" href="{{ path ('prodbycat',{id:c.id})}}" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
 		            </div>
 	            </div>
             </div>

@@ -20,7 +20,7 @@
                 <td>{{ a.getCategories().getNomC() }}</td>
                 <td>{{ a.getDescription() }}</td>
                 <td>{{ a.getPrix ()}}</td>
-                <td><img style="width:200px;" src="{{asset ('uploads/articles/'~a.image)}}" ></td>
+                <td><img style="width:200px;" src="{{ asset ('uploads/articles/'~a.image)}}" ></td>
                 <td>{{ a.getStock() }}</td>
 
             </tr>

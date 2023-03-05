@@ -19,6 +19,9 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 
@@ -40,6 +43,22 @@ class ArticleController extends AbstractController
             'article' => $article,
         ]);
     }
+
+    #[Route('/AllArticle1', name: 'listArticle1')]
+    public function listj(ManagerRegistry $doctrine, SerializerInterface $serializer): Response
+
+    {  
+        $repository= $doctrine->getRepository(Article::class);
+        $article=$repository->findAll();
+        $json = $serializer->serialize($article, 'json', ['groups' => "article"]);
+
+        return new Response($json);
+       /* return $this->render('article/listA.html.twig', [
+            'article' => $article,
+        ]);*/
+    }
+
+
     #[Route('/add', name: 'add')]
     public function add(HttpFoundationRequest $request,ManagerRegistry $doctrine,SluggerInterface $slugger): Response
     {  
@@ -82,6 +101,50 @@ class ArticleController extends AbstractController
        }
        return $this->renderForm('article/add.html.twig',['formC'=>$form]);
     
+}
+#[Route('/addArticleJSON', name: 'addJSON')]
+public function addj(HttpFoundationRequest $request,ManagerRegistry $doctrine,SluggerInterface $slugger, NormalizerInterface $Normalizer): Response
+{  
+   $article=new Article;
+
+   $form=$this->createForm(ArticleType::class,$article);
+   $form->add('Enregistrer',SubmitType::class);
+
+   $form->handleRequest($request);
+   if($form->isSubmitted()&& $form->isValid())
+   {
+    $photo = $form->get('Photo')->getData();
+
+        // this condition is needed because the 'brochure' field is not required
+        // so the PDF file must be processed only when a file is uploaded
+        if ($photo) {
+            $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
+            // this is needed to safely include the file name as part of the URL
+            $safeFilename = $slugger->slug($originalFilename);
+            $newFilename = $safeFilename.'-'.uniqid().'.'.$photo->guessExtension();
+
+            // Move the file to the directory where brochures are stored
+            try {
+                $photo->move(
+                    $this->getParameter('article_directory'),
+                    $newFilename
+                );
+            } catch (FileException $e) {
+                // ... handle exception if something happens during file upload
+            }
+
+            // updates the 'brochureFilename' property to store the PDF file name
+            // instead of its contents
+            $article->setImage($newFilename);
+        }
+    $em=$doctrine->getManager();
+    $em-> persist ($article);
+    $em->flush();
+    $jsonContent = $Normalizer->normalize($article,'json', ['groups'=>'article']);
+    return new Response(json_encode($jsonContent));
+   }
+  // return $this->renderForm('article/add.html.twig',['formC'=>$form]);
+
 }
 #[Route('/editA/{id}', name: 'editA')]
 public function editA(HttpFoundationRequest $request,ManagerRegistry $doctrine,$id,SluggerInterface $slugger ): Response
@@ -198,7 +261,8 @@ public function show_prodcat($id,ArticleRepository $rep, PaginatorInterface $pag
         $html = $this->renderView('article/listpdf.html.twig', [
             'article' => $Repository->findAll(),
         ]);
-
+        $image = file_get_contents('uploads/articles/');
+        
         // Load HTML to Dompdf
         $dompdf->loadHtml($html);
         // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'

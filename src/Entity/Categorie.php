@@ -6,6 +6,7 @@ use App\Repository\CategorieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CategorieRepository::class)]
@@ -14,18 +15,26 @@ class Categorie
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("categorie")]
+
     private ?int $id = null;
 
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message:"Le nom de la categorie est obligatoire")]
     #[Assert\Regex(pattern: '/^[a-z\s]+$/i',htmlPattern: '^[a-zA-Z\s]+$',message:"Le nom de la categorie doit contenir que des lettres")]
+    #[Groups("categorie")]
+
     private ?string $nomC = null;
 
     #[ORM\OneToMany(mappedBy: 'categories', targetEntity: Article::class, orphanRemoval: true)]
+    #[Groups("categorie")]
+
     private Collection $articles;
 
     #[ORM\Column(length: 255)]
+    #[Groups("categorie")]
+
     private ?string $imageC = null;
 
     public function __construct()
