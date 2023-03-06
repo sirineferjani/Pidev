@@ -4,6 +4,8 @@ namespace App\Controller;
 use DateTime;
 use App\Entity\User;
 use App\Form\ProfileFormType;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -363,6 +365,8 @@ public function chartAction(EntityManagerInterface $entityManager)
         'labels' => $labels,
     ]);
 }
+
+
 }
 
 

@@ -3,6 +3,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +26,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request,UserRepository $repository, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -63,6 +65,8 @@ class RegistrationController extends AbstractController
             }
 
             $entityManager->persist($user);
+        
+           // $repository->sms();
             $entityManager->flush();
             
             // Set their role
@@ -75,4 +79,20 @@ class RegistrationController extends AbstractController
             'form' => $form->createView(),
         ]);
     } 
+    /**
+ * @Route("/traiter/{id}", name="app_regis")
+ */
+
+ function Traiter(UserRepository $repository, $id, Request $request, EntityManager $entityManager)
+ {
+
+     $user = new User();
+     $user = $repository->find($id);
+     // $reclamation->setEtat(1 );
+     $em = $this-> $entityManager->getManager();
+     $em->flush();
+     $repository->sms();
+     $this->addFlash('danger', 'reponse envoyée avec succées');
+     return $this->redirectToRoute('app_login');
+ }
 }
