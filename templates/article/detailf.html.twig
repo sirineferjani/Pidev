@@ -1,26 +1,30 @@
 {% extends 'base-front.html.twig' %}
 {% block body %}
+
 <div class="section">
 	<div class="container">
 		<div class="row">
                 <div class="col-md-5 col-md-push-2">
 						<div id="product-main-img">
-							<div class="product-preview">
-								<img style="width:200px;" src="{{asset ('uploads/articles/'~article.image)}}" alt="">
+
+	        	<div class="product-preview">
+				
+								<img class="w-100 h-auto" style="max-width: 300px; max-height: 200px" src="{{asset ('uploads/articles/'~article.image)}}" alt="">
 							</div>
                         </div>
-                </div>            
+                </div> 
+                     {% if article.getStock()==0 %}           
                     <div class="col-md-5">
 						<div class="product-details">
 							<h2 class="product-name">{{article.getNomArticle()}}</h2>
-					 {% if article.getStock()==0 %}
+				
                             
                                     <div class="product-label">
 										<style>.new {  background-color: #D10024; border-color: #D10024;  color: #FFF;} </style>
 										<span class="new">Sold Out</span>  
 									</div>
                                         
-                     {% endif %}    
+                     
 							{# <div>
 								<div class="product-rating">
 									<i class="fa fa-star"></i>
@@ -36,6 +40,7 @@
 						
 							</div>
 							<p>{{article.getDescription()}}</p>
+							
 
 							{# <div class="product-options">
 								<label>
@@ -51,7 +56,7 @@
 									</select>
 								</label>
 							</div> #}
-
+							
 							<div class="add-to-cart">
 								<div class="qty-label">
 									Qty
@@ -62,11 +67,226 @@
 									</div>
 								</div>
 								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+<style>
+            #stars
+            {
+                width:200px;
+                height:200px;
+                margin:50px auto;   
+            }
+            lt
+            {
+                display:inline-block;
+                {# font-size:20px; #}
+                padding:1px;
+                color:#ccc;
+            }
+            .hovered-stars
+            {
+                color:#FFCC36;
+            }
+            .clicked-stars
+            {
+                color:sandybrown;
+            }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+
+<script>
+var data;
+    $(document).ready(function(){
+        $("lt").mouseover(function(){
+            var current = $(this);
+            $("lt").each(function(index){
+                $(this).addClass("hovered-stars");
+                if(index == current.index())
+                {
+                    return false;
+                }
+            })
+        })
+        $("lt").mouseleave(function(){
+            $("lt").removeClass("hovered-stars");
+        });
+        $("lt i").click(function(){
+            $("lt").removeClass("clicked-stars");
+            $(".hovered-stars").addClass("clicked-stars");
+            var val=$(".clicked-stars").length;
+            
+            console.log(val);
+            
+        
+        $.ajax({
+            type: "POST",
+            url: "{{path('star',{id:article.id})}}",
+            data: {value:val},
+            dataType: "json",
+            success: function(response) {
+                console.log(response);
+                $("#msg").html((response.toFixed(2))+"/5");
+            },
+            error: function(jqXHR, status, error) {
+            console.log(error);
+            
+        }
+        });
+        
+        });
+    
+    })
+</script>
+                        <div id="stars">
+                            <ul>
+                                <lt><i value="1" class="fa fa-star fa-fw"></i></lt>
+                                <lt><i value="2" class="fa fa-star fa-fw"></i></lt>
+                                <lt><i value="3" class="fa fa-star fa-fw"></i></lt>
+                                <lt><i value="4" class="fa fa-star fa-fw"></i></lt>
+                                <lt><i value="5" class="fa fa-star fa-fw"></i></lt>
+                               
+                            </ul>
+                        </div>
+
 							</div>
                            
 							
 						</div>
+                        {% elseif article.getStock() > 0 %}  
+                        <div class="col-md-5">
+						  <div class="product-details">
+							<h2 class="product-name">{{article.getNomArticle()}}</h2>
+				            
+							{# <div>
+								<div class="product-rating">
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star-o"></i>
+								</div>
+								<a class="review-link" href="#">10 Review(s) | Add your review</a>
+							</div> #}
+							<div>
+								<h3 class="product-price">{{article.getPrix ()}}DT</h3>
+						
+							</div>
+							<p>{{article.getDescription()}}</p>
+							
+
+							{# <div class="product-options">
+								<label>
+									Size
+									<select class="input-select">
+										<option value="0">X</option>
+									</select>
+								</label>
+								<label>
+									Color
+									<select class="input-select">
+										<option value="0">Red</option>
+									</select>
+								</label>
+							</div> #}
+							
+							<div class="add-to-cart">
+								<div class="qty-label">
+									Qty
+									<div class="input-number">
+										<input type="number">
+										<span class="qty-up">+</span>
+										<span class="qty-down">-</span>
+									</div>
+								</div>
+								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+<style>
+            #stars
+            {
+                width:200px;
+                height:200px;
+                margin:50px auto;   
+            }
+            lt
+            {
+                display:inline-block;
+                {# font-size:20px; #}
+                padding:1px;
+                color:#ccc;
+            }
+            .hovered-stars
+            {
+                color:#FFCC36;
+            }
+            .clicked-stars
+            {
+                color:sandybrown;
+            }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+
+<script>
+var data;
+    $(document).ready(function(){
+        $("lt").mouseover(function(){
+            var current = $(this);
+            $("lt").each(function(index){
+                $(this).addClass("hovered-stars");
+                if(index == current.index())
+                {
+                    return false;
+                }
+            })
+        })
+        $("lt").mouseleave(function(){
+            $("lt").removeClass("hovered-stars");
+        });
+        $("lt i").click(function(){
+            $("lt").removeClass("clicked-stars");
+            $(".hovered-stars").addClass("clicked-stars");
+            var val=$(".clicked-stars").length;
+            
+            console.log(val);
+            
+        
+        $.ajax({
+            type: "POST",
+            url: "{{path('star',{id:article.id})}}",
+            data: {value:val},
+            dataType: "json",
+            success: function(response) {
+                console.log(response);
+                $("#msg").html((response.toFixed(2))+"/5");
+            },
+            error: function(jqXHR, status, error) {
+            console.log(error);
+            
+        }
+        });
+        
+        });
+    
+    })
+</script>
+                        <div id="stars">
+                            <ul>
+                                <lt><i value="1" class="fa fa-star fa-fw"></i></lt>
+                                <lt><i value="2" class="fa fa-star fa-fw"></i></lt>
+                                <lt><i value="3" class="fa fa-star fa-fw"></i></lt>
+                                <lt><i value="4" class="fa fa-star fa-fw"></i></lt>
+                                <lt><i value="5" class="fa fa-star fa-fw"></i></lt>
+                               
+                            </ul>
+                        </div>
+
+							</div>
+                           
+							
+						</div>  
+
 				</div>
+                {% endif %}
          </div>
     </div>
 </div>

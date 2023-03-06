@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 
 use App\Entity\Categorie;
@@ -12,14 +11,20 @@ use App\Repository\CategorieRepository;
 use App\Form\CategorieType;
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
+
 use Knp\Component\Pager\PaginatorInterface;
+
 use Doctrine\Bundle\DoctrineBundle\Registry;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
+
 use Symfony\Component\Serializer\SerializerInterface;
+
 use Symfony\Component\Serializer\Annotation\Groups;
+
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -91,8 +96,7 @@ class CategorieController extends AbstractController
         $em=$doctrine->getManager();
         $em-> persist ($categorie);
         $em->flush();
-        $repository->sms();
-        $em->flush();
+
         return $this->redirectToRoute('listC');
        }
        return $this->renderForm('categorie/addC.html.twig',['formA'=>$form]);
@@ -167,20 +171,7 @@ public function deleteC (ManagerRegistry $doctrine,$id):Response
         $cat=$rep->find($id);
         return $this->render('categorie/articlecategorie.html.twig',['cat'=>$cat,'id'=>$id,]);
     }
-    #[Route('/traiter/{id}', name: 'AjoutCat')]
-    function Traiter(CategorieRepository $repository, $id, Request $request, ManagerRegistry $doctrine)
-    {
-
-        $categorie = new Categorie();
-        $categorie = $repository->find($id);
-        // $reclamation->setEtat(1 );
-        $em = $doctrine->getManager();
-        $em->flush();
-        $repository->sms();
-        $this->addFlash('danger', 'reponse envoyée avec succées');
-        return $this->redirectToRoute('AjoutCat');
-
-    }
+ 
 }
 
 

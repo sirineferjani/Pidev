@@ -1,11 +1,13 @@
 {% extends 'base-back.html.twig' %}
 
 {% block content %}
-<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-y">
-<h2> Liste des Categories </h2> 
-
-<div class="container">
-<table class="table text-black" border="2">
+<div class="row" style="display: flex;align-items: center; margin-left:256px ;margin-top: 0px;">
+        <div class="col-lg-6">
+           
+                <div class="card-body">
+                    <h5 class="card-title">Liste des articles</h5>
+                    <!-- Table with stripped rows -->
+                    <table class="table table-striped">
 <center>
         <thead>
             <tr>
@@ -35,7 +37,9 @@
         </tbody>
 </table>
 </center>
+</div>
+</div>
 <a class="btn btn-outline-secondary" href="{{ path ('addC') }}"  >ajouter</a> 
 </div>
-</main>
+
 {% endblock %}

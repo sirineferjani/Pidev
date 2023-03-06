@@ -53,6 +53,9 @@ class Article
     #[ORM\ManyToOne(inversedBy: 'articles')]
     private ?Categorie $categories = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $note = null;
+
 
 
     public function getId(): ?int
@@ -147,6 +150,18 @@ class Article
     public function outofstock():bool
     {
         return $this->getStock()==0;
+    }
+
+    public function getNote(): ?float
+    {
+        return $this->note;
+    }
+
+    public function setNote(?float $note): self
+    {
+        $this->note = $note;
+
+        return $this;
     }
 
  

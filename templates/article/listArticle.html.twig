@@ -6,7 +6,9 @@
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"> 
                 {% for a in article %}
-                    <div class="col mb-5">
+                     {% if a.getStock()==0 %}
+                     
+                     <div class="col mb-5">
                         <div class="card h-100">
                             <!-- Product image-->
                             <img class="card-img-top" style="width:250px;" src="{{asset('uploads/articles/'~a.image)}}" alt="..." />
@@ -15,10 +17,37 @@
                                 <div class="text-center">
                                     <!-- Product name-->
                                     <a href="{{path('detailf',{id:a.id})}}"><h5 class="fw-bolder">{{a.getNomArticle()}}</h5></a>
+                                     <div class="product-label">
+									 <style>.new {   background-color: #D10024; border-color: #D10024;color: #FFF; } </style>
+									<span class="new">Sold Out</span>
+									</div>
                                     <!-- Product price-->
                                     <div class="card-title text" style="font-weight: bold; font-size: 1.5rem;">
                                    {{a.prix}} TND
                                     </div>
+                                   
+                                </div>
+                            </div>
+                            <!-- Product actions-->
+                         
+                        </div>
+                    </div>
+                       {% elseif a.getStock() > 0 %}
+                        <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" style="width:250px;" src="{{asset('uploads/articles/'~a.image)}}" alt="..." />
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <a href="{{path('detailf',{id:a.id})}}"><h5 class="fw-bolder">{{a.getNomArticle()}}</h5></a>
+                                     
+                                    <!-- Product price-->
+                                    <div class="card-title text" style="font-weight: bold; font-size: 1.5rem;">
+                                   {{a.prix}} TND
+                                    </div>
+                                   
                                 </div>
                             </div>
                             <!-- Product actions-->
@@ -26,7 +55,8 @@
                                 <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Ajouter au panier</a></div>
                             </div>
                         </div>
-                    </div>
+                    </div> 
+                    {% endif %}
                     {% endfor %}
 
                 </div>

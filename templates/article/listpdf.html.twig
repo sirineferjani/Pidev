@@ -1,29 +1,31 @@
-<h1 class="align-center">La liste de tout les articles </h1>
+<h1 class="align-center">Bienvenue dans votre application ATP </h1>
 
-<table class="table" border="5" >
+
+<p>La liste des articles qui sont en repture de stock</p>
+ <table class="table" border="5" >
     <thead>
     <tr>
- <th>ref_article</th>
+                <th>ref_article</th>
                 <th>Nom_article</th>
                 <th>Categorie</th>
                 <th>Description</th>
                 <th>Prix</th>
-                <th>Image</th>
                 <th>Stock</th>
     </tr>
     </thead>
     <tbody>
         {% for a in article %}
+        {% if a.Stock==0 %}
             <tr>
                 <td>{{ a.getRefArticle()}}</td>
                 <td>{{ a.getNomArticle() }}</td>
                 <td>{{ a.getCategories().getNomC() }}</td>
                 <td>{{ a.getDescription() }}</td>
                 <td>{{ a.getPrix ()}}</td>
-                <td><img style="width:200px;" src="{{ asset ('uploads/articles/'~a.image)}}" ></td>
                 <td>{{ a.getStock() }}</td>
 
             </tr>
+            {% endif %}
         {% else %}
             <tr>
                 <td colspan="3">no records found</td>

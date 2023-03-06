@@ -19,6 +19,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -36,11 +37,25 @@ class ArticleController extends AbstractController
     }
     #[Route('/listA', name: 'listA')]
     public function list(ManagerRegistry $doctrine): Response
-    {  
+    {    
         $repository= $doctrine->getRepository(Article::class);
         $article=$repository->findAll();
+        $nb = $repository->count([]);
+        for($i=0;$i<$nb;$i++)
+        {
+           /* if($article[$i]->getStock()<6 && $article[$i]->getStock()!=0)
+            {
+                $repository->sms($article[$i]->getNomArticle());
+            }
+            else if ($article[$i]->getStock()==0 )
+            {
+                $repository->sms1($article[$i]->getNomArticle());
+            } */
+         
+        }
+        $articles = $repository->findAll();
         return $this->render('article/listA.html.twig', [
-            'article' => $article,
+            'articles' => $articles,
         ]);
     }
 
@@ -232,7 +247,7 @@ public function show_id(ManagerRegistry $doctrine,$id,HttpFoundationRequest $req
     
 #[Route('/catprod/{id}', name: 'prodbycat')]
 public function show_prodcat($id,ArticleRepository $rep, PaginatorInterface $pagination,HttpFoundationRequest $request ): Response
-{
+{    
     //$produits = $rep->Findprodbycat($id);
     $prod=$pagination->paginate(
         $article = $rep->Findprodbycat($id),
@@ -261,7 +276,7 @@ public function show_prodcat($id,ArticleRepository $rep, PaginatorInterface $pag
         $html = $this->renderView('article/listpdf.html.twig', [
             'article' => $Repository->findAll(),
         ]);
-        $image = file_get_contents('uploads/articles/');
+       
         
         // Load HTML to Dompdf
         $dompdf->loadHtml($html);
@@ -275,6 +290,55 @@ public function show_prodcat($id,ArticleRepository $rep, PaginatorInterface $pag
             "article" => true
         ]);
     }
+    #[Route('/star/{id}', name: 'star')]
+    public function yourAction(HttpFoundationRequest $request,$id,ManagerRegistry $doctrine)
+    {
+        if ($request->isXmlHttpRequest()) {
+            // handle the AJAX request
+            $data = $request->getContent(); // retrieve the data sent by the client-side JavaScript code
+            $repository = $doctrine->getRepository(article::class);
+            $article = $repository->find($id);
+            if($article->getNote()==0)
+                $article->setNote(5);
+            else
+                $article->setNote(($article->getNote()+$data[6])/2);//modifier la note du produit
+            $em=$doctrine->getManager();
+            $em->persist($article);
+            $em->flush();
+            $prod = $repository->find($id);
+            $test=$prod->getNote();
+            $response = new Response();//nouvelle instance du response pour la renvoyer a la fonction ajax
+            $response->setContent(json_encode($test));//encoder les donnes sous forme JSON et les attribuer a la variable response
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;//envoie du response
+        } 
+    }
+    /*  #[Route('/traiter/{id}', name: 'AjoutCat')]
+    function Traiter(ArticleRepository $repository, $id, Request $request, ManagerRegistry $doctrine)
+    {
 
+        $article = new Categorie();
+        $article = $repository->find($id);
+        // $reclamation->setEtat(1 );
+        $em = $doctrine->getManager();
+        $em->flush();
+        $repository->sms(string $quant);
+        $repository->sms1(string $quant);
+        $this->addFlash('danger', 'reponse envoyée avec succées');
+        return $this->redirectToRoute('AjoutCat');
+    } */
+        
+     #[Route("/search", name:"search")]
+     
+    public function search(Request $request): JsonResponse
+    {
+        $query = $request->query->get('q');
 
+        // Effectuer la recherche avec la requête $query
+
+        $results = ['result1', 'result2', 'result3']; // Résultats de recherche
+
+        return $this->json($results);
+    }
+    
 }

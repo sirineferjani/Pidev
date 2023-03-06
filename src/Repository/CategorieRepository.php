@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Repository;
-use Twilio\Rest\Client;
+
 use App\Entity\Categorie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -38,27 +38,7 @@ class CategorieRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    public  function sms(){
-        // Your Account SID and Auth Token from twilio.com/console
-                $sid = 'ACdf205108665fa554493707ff38b480d9';
-                $auth_token = 'e53f05ade94458f042d11c977acf35e4';
-        // In production, these should be environment variables. E.g.:
-        // $auth_token = $_ENV["TWILIO_AUTH_TOKEN"]
-        // A Twilio number you own with SMS capabilities
-                $twilio_number = "+12762849300";
-        
-                $client = new Client($sid, $auth_token);
-                $client->messages->create(
-                // the number you'd like to send the message to
-                    '+21655007082',
-                    [
-                        // A Twilio phone number you purchased at twilio.com/console
-                        'from' => '+12766183398',
-                        // the body of the text message you'd like to send
-                        'body' => 'Une Catégorie a été ajoutée'
-                    ]
-                );
-            }
+
 //    /**
 //     * @return Categorie[] Returns an array of Categorie objects
 //     */
