@@ -1,0 +1,76 @@
+{% extends 'base-back.html.twig' %}
+
+{% block content %}
+ 
+
+
+<!DOCTYPE html>
+<html lang="en">
+<body class="g-sidenav-show  bg-gray-200">
+  
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+     
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">List Activités</h6>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+
+
+
+
+
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Image</th>
+                <th>Description</th>
+                <th>Age</th>
+                <th>Lieu</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for activite in activites %}
+            <tr>
+                <td> <div class="d-flex px-2 py-1"> {{ activite.id }}</td>
+                <td> <div class="d-flex px-2 py-1"> {{ activite.nom }}</td>
+                <td> <div class="d-flex px-2 py-1"> {{ activite.image }}</td>
+                <td> <div class="d-flex px-2 py-1"> {{ activite.description|slice(0,50) }}....</td>
+                <td> <div class="d-flex px-2 py-1"> {{ activite.age }}</td>
+                <td> <div class="d-flex px-2 py-1"> {{ activite.lieu }}</td>
+                <td>
+                
+                    <a  href="{{ path('app_activite_show', {'id': activite.id}) }}"> <span class="badge badge-sm bg-gradient-success">Show</span></a>
+                    <a href="{{ path('app_activite_edit', {'id': activite.id}) }}"><span class="badge badge-sm bg-gradient-success">Edit</span></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        <div class="d-flex px-2 py-1">
+    <a href="{{ path('app_activite_new') }}"><span class="badge badge-sm bg-gradient-success">Create new</span></a>
+
+    </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+
+</html>
+{% endblock %}
