@@ -4,16 +4,17 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Categorie;
-use App\Entity\Commentaire;
 use App\Form\ArticleType;
-use App\Form\CommentaireType;
+use App\Form\SearchType;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
+use Symfony\Component\Form\FormView;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\BrowserKit\Request;
@@ -24,10 +25,14 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
-
+use Endroid\QrCodeBundle\Response\QrCodeResponse;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
 
 class ArticleController extends AbstractController
-{
+{   
+   
+
     #[Route('/article', name: 'article')]
     public function index(): Response
     {
@@ -117,47 +122,23 @@ class ArticleController extends AbstractController
        return $this->renderForm('article/add.html.twig',['formC'=>$form]);
     
 }
+
 #[Route('/addArticleJSON', name: 'addJSON')]
-public function addj(HttpFoundationRequest $request,ManagerRegistry $doctrine,SluggerInterface $slugger, NormalizerInterface $Normalizer): Response
+public function addj(HttpFoundationRequest $req, NormalizerInterface $Normalizer)
 {  
-   $article=new Article;
-
-   $form=$this->createForm(ArticleType::class,$article);
-   $form->add('Enregistrer',SubmitType::class);
-
-   $form->handleRequest($request);
-   if($form->isSubmitted()&& $form->isValid())
-   {
-    $photo = $form->get('Photo')->getData();
-
-        // this condition is needed because the 'brochure' field is not required
-        // so the PDF file must be processed only when a file is uploaded
-        if ($photo) {
-            $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
-            // this is needed to safely include the file name as part of the URL
-            $safeFilename = $slugger->slug($originalFilename);
-            $newFilename = $safeFilename.'-'.uniqid().'.'.$photo->guessExtension();
-
-            // Move the file to the directory where brochures are stored
-            try {
-                $photo->move(
-                    $this->getParameter('article_directory'),
-                    $newFilename
-                );
-            } catch (FileException $e) {
-                // ... handle exception if something happens during file upload
-            }
-
-            // updates the 'brochureFilename' property to store the PDF file name
-            // instead of its contents
-            $article->setImage($newFilename);
-        }
-    $em=$doctrine->getManager();
+  $em = $this->getDoctrine()->getManager();
+   $article = new Article ();
+   
+   $article->setRefArticle($req->get('ref_article'));
+   $article->setNomArticle($req->get('Nom_article'));
+   $article->setDescription($req->get('Description'));
+   $article->setPrix($req->get('Prix'));
+   $article->setStock($req->get('Stock'));
     $em-> persist ($article);
     $em->flush();
     $jsonContent = $Normalizer->normalize($article,'json', ['groups'=>'article']);
     return new Response(json_encode($jsonContent));
-   }
+   
   // return $this->renderForm('article/add.html.twig',['formC'=>$form]);
 
 }
@@ -202,6 +183,7 @@ public function editA(HttpFoundationRequest $request,ManagerRegistry $doctrine,$
    }
    return $this->renderForm('article/edit.html.twig',['formC'=>$form]);
 }
+
 #[Route('/deleteA/{id}',name: 'deleteA')]
 public function deleteS (ManagerRegistry $doctrine,$id):Response
 {  
@@ -221,7 +203,7 @@ public function show(ManagerRegistry $doctrine): Response
         'article' => $article,
     ]);
 }
-#[Route('/Commentaire', name: 'listCom')]
+/*#[Route('/Commentaire', name: 'listCom')]
 public function listcom(ManagerRegistry $doctrine): Response
 {  
     $repository= $doctrine->getRepository(Commentaire::class);
@@ -229,7 +211,7 @@ public function listcom(ManagerRegistry $doctrine): Response
     return $this->render('article/detailf.html.twig', [
         'commentaire' => $commentaire,
     ]);
-}
+} */
 #[Route('getart/{id}',name:'detailf')]
 public function show_id(ManagerRegistry $doctrine,$id,HttpFoundationRequest $request )
 {   
@@ -327,18 +309,61 @@ public function show_prodcat($id,ArticleRepository $rep, PaginatorInterface $pag
         $this->addFlash('danger', 'reponse envoyée avec succées');
         return $this->redirectToRoute('AjoutCat');
     } */
+
         
-     #[Route("/search", name:"search")]
-     
-    public function search(Request $request): JsonResponse
-    {
-        $query = $request->query->get('q');
+    #[Route("/article/search", name: "article_search")]
 
-        // Effectuer la recherche avec la requête $query
-
-        $results = ['result1', 'result2', 'result3']; // Résultats de recherche
-
-        return $this->json($results);
-    }
+    public function search(HttpFoundationRequest $request)
+    {   
+        $form = $this->createFormBuilder()
+        ->add('Nomarticle', TextType::class)
+        ->getForm();
+           
     
+        $article = [];
+        if ($request->isMethod('POST')) {
+            $Nom_article = $request->request->get('form')['Nomarticle'];
+            $article = $this->getDoctrine()
+                ->getRepository(Article::class)
+                ->findByName($Nom_article);
+        }
+    
+        return $this->render('article/search.html.twig', [
+            'form' => $form->createView(),
+            'article' => $article,
+        ]);
+    }
+
+    #[Route(path:'/article/{id}/qr-code', name: 'generate_qr_code')]
+public function generateQrCodeForUser($id,ManagerRegistry $doctrine)
+{
+    // Get the user from the database
+    $article=$doctrine->getRepository(Article::class)->find($id);
+  
+    // Check if the user exists
+    if (!$article) {
+        throw $this->createNotFoundException('User not found');
+    }
+
+    // Generate the QR code
+    $qrCode = new QrCode($article->getNomArticle());
+
+    // Set the QR code options
+    $qrCode->setSize(300);
+    $qrCode->setMargin(10);
+    
+    // Generate the PNG image data
+    $writer = new PngWriter();
+    $qrCodeData = $writer->write($qrCode);
+
+// Return the QR code as an image response
+$response = new Response($qrCodeData->getString(), Response::HTTP_OK, [
+    'Content-Type' => $qrCodeData->getMimeType(),
+]);
+$response->setEtag(md5($qrCodeData->getString()));
+$response->setPublic();
+return $response;
+    
+}
+
 }

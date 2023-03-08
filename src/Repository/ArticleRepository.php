@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Article;
 use Twilio\Rest\Client;
+use App\Controller\TextType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -89,6 +90,14 @@ class ArticleRepository extends ServiceEntityRepository
                             ]
                         );
                     }
+public function findByName($Nom_article)
+{
+    return $this->createQueryBuilder('a')
+        ->where('a.Nom_article LIKE :Nomarticle')
+        ->setParameter('Nomarticle', '%'.$Nom_article.'%')
+        ->getQuery()
+        ->getResult();
+}
   /*  public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
     {
       $persister = $this->_em->getUnitOfWork()->getEntityPersister($this->_entityName);

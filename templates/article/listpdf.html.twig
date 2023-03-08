@@ -15,7 +15,7 @@
     </thead>
     <tbody>
         {% for a in article %}
-        {% if a.Stock==0 %}
+        {% if a.getStock() == 0 %}
             <tr>
                 <td>{{ a.getRefArticle()}}</td>
                 <td>{{ a.getNomArticle() }}</td>
@@ -33,3 +33,4 @@
         {% endfor %}
     </tbody>
 </table>
+

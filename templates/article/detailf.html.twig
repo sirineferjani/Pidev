@@ -13,6 +13,12 @@
 							</div>
                         </div>
                 </div> 
+                <div class="col-md-7 col-md-push-2">
+                  <div>
+                    <a>
+                 <img src="{{ path('generate_qr_code', {'id': article.id}) }}" alt="QR Code" height="100" width="100">
+                  
+                    </a>
                      {% if article.getStock()==0 %}           
                     <div class="col-md-5">
 						<div class="product-details">
@@ -57,16 +63,7 @@
 								</label>
 							</div> #}
 							
-							<div class="add-to-cart">
-								<div class="qty-label">
-									Qty
-									<div class="input-number">
-										<input type="number">
-										<span class="qty-up">+</span>
-										<span class="qty-down">-</span>
-									</div>
-								</div>
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+						
 <style>
             #stars
             {

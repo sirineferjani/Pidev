@@ -26,6 +26,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 use Symfony\Component\HttpFoundation\Request as HttpFoundationRequest;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class CategorieController extends AbstractController
@@ -101,6 +102,22 @@ class CategorieController extends AbstractController
        }
        return $this->renderForm('categorie/addC.html.twig',['formA'=>$form]);
     
+}
+#[Route('/addCategorieJSON', name: 'addJSONC')]
+public function addj(HttpFoundationRequest $req,ManagerRegistry $doctrine, NormalizerInterface $Normalizer)
+{  
+  $em = $this->getDoctrine()->getManager();
+   $categorie = new Categorie ();
+   
+   $categorie->setNomC($req->get('nomC'));
+
+    $em-> persist ($categorie);
+    $em->flush();
+    $jsonContent = $Normalizer->normalize($categorie,'json', ['groups'=>'categorie']);
+    return new Response(json_encode($jsonContent));
+   
+  // return $this->renderForm('article/add.html.twig',['formC'=>$form]);
+
 }
 #[Route('/editC/{id}', name: 'editC')]
 public function editC(HttpFoundationRequest $request,ManagerRegistry $doctrine,$id,SluggerInterface $slugger ): Response
