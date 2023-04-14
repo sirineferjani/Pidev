@@ -1,0 +1,74 @@
+{% extends 'base-back.html.twig' %}
+
+{% block content %}
+ 
+
+
+<!DOCTYPE html>
+<html lang="en">
+<body class="g-sidenav-show  bg-gray-200">
+  
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+     
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">List des Agences </h6>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+
+
+
+
+
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Nbr_participant</th>
+                <th>Devis</th>
+                <th>Num_tel</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for agence in agences %}
+            <tr>
+                <td> <div class="d-flex px-2 py-1"> {{ agence.id }}</td>
+                <td> <div class="d-flex px-2 py-1"> {{ agence.Nom }}</td>
+                <td> <div class="d-flex px-2 py-1"> {{ agence.nbrParticipant }}</td>
+                <td> <div class="d-flex px-2 py-1"> {{ agence.Devis }}</td>
+                <td> <div class="d-flex px-2 py-1"> {{ agence.NumTel }}</td>
+                <td>
+                
+                    <a  href="{{ path('app_agence_show', {'id': agence.id}) }}"> <span class="badge badge-sm bg-gradient-success">Show</span></a>
+                    <a href="{{ path('app_agence_edit', {'id': agence.id}) }}"><span class="badge badge-sm bg-gradient-success">Edit</span></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        <div class="d-flex px-2 py-1">
+    <a href="{{ path('app_agence_new') }}"><span class="badge badge-sm bg-gradient-success">Create new</span></a>
+
+    </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+
+</html>
+{% endblock %}
